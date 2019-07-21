@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/emergencia"
+        android:icon="@mipmap/ic_emergencia_boton"
+        android:title="@string/reload"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/configuracion"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/SERV_BUS"
+        android:orderInCategory="101"
+        android:title="@string/SERV_BUSC"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/SERV_CANC"
+        android:orderInCategory="102"
+        android:title="@string/SERV_CANC"
+        app:showAsAction="never"
+        />
+</menu>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/send_image"
+        android:title="@string/send_image"
+        android:icon="@drawable/imagen"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/send_file"
+        android:title="@string/send_file"
+        android:icon="@drawable/archivo"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/send_audio"
+        android:title="@string/send_audio"
+        android:icon="@drawable/audio"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/send_video"
+        android:title="@string/send_video"
+        android:icon="@drawable/video"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/send_drawing"
+        android:title="@string/send_drawing"
+        android:icon="@drawable/dibujo"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/vaciar"
+        android:title="Borrar registro"
+        android:icon="@drawable/dibujo"
+        app:showAsAction="ifRoom" />
+
+</menu>

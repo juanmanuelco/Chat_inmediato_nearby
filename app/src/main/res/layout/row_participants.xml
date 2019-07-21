@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cv">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_marginRight="26dp"
+
+                android:id="@+id/person_photo_cont"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/person_photo"
+                    android:src="@drawable/user2"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/AGREGAR"/>
+                <Switch
+                    android:id="@+id/sw_agregado"
+                    android:layout_width="wrap_content"
+                    android:textOn="@string/confirmar"
+                    android:textOff="@string/negar"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:id="@+id/name_tv"
+                android:layout_toRightOf="@+id/person_photo_cont"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:textSize="20dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ip_tv"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:layout_toRightOf="@+id/person_photo_cont"
+                android:layout_below="@+id/name_tv"
+                />
+
+            <ImageView
+                android:id="@+id/no_conectado"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="42dp"
+                android:layout_marginEnd="11dp"
+                app:srcCompat="@mipmap/ic_btn_no_connect"
+                android:visibility="invisible"/>
+
+            <ImageView
+                android:id="@+id/conectado"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="42dp"
+                android:layout_marginEnd="11dp"
+                app:srcCompat="@mipmap/ic_btn_connect"
+                android:visibility="invisible"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

@@ -1,0 +1,159 @@
+<resources>
+    <string name="app_name">CHAT \nINMEDIATO</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="API_KEY" translatable="false">AIzaSyBk39iCbK-Jlz6HmoYZ8NGin6D3o2DyfTo</string>
+    <string name="UBICACION">Mi ubicación</string>
+    <string name="GET_UBIC">Obteniendo su ubicación</string>
+    <string name="ERROR">Error</string>
+    <string name="TARDE">Intente nuevamente más tarde</string>
+    <string name="VERIFY">Verificando</string>
+    <string name="NONAME">Ingrese un Nickname</string>
+    <string name="NO_PART">No se encontraron más participantes</string>
+    <string name="ERROR_BUSC">Ha ocurrido un error mientras se buscaban contactos</string>
+    <string name="NO_ENCONT">Tu ya no eres encontrable</string>
+    <string name="BUSCANDO_PART">Buscando participantes</string>
+    <string name="ENCONTRADOS">Usuarios conectados en la misma red</string>
+
+    <string name="encabezado_principal">Bienvenido</string>
+    <string name="hing_principal">Esciba un nombre</string>
+    <string name="pregunta_principal">¿Desea conectarse?</string>
+    <string name="Bluetooth">Chat por Bluetooth</string>
+    <string name="lan">Chat por Lan</string>
+    <string name="wifi">Chat por Wifi Direct</string>
+    <string name="AGREGAR">AGREGAR</string>
+
+    <string name="title_activity_tabbed">TabbedActivity</string>
+    <string name="tab_text_1">Cercanos</string>
+    <string name="tab_text_2">Mensaje</string>
+    <string name="tab_text_3">Historico</string>
+    <string name="m_conf">Configuración</string>
+    <string name="action_settings">Configuración de TTL</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+
+    <!-- App and Activities -->
+    <string name="title_activity_view_image">Ver imágen</string>
+    <string name="title_activity_chat">Sala de chat</string>
+    <string name="title_activity_record_audio">Grabar audio</string>
+    <string name="title_activity_play_video">Reroducir video</string>
+    <string name="title_activity_file_picker">Escoger archivo</string>
+    <string name="title_activity_web_view">Abrir link....</string>
+    <string name="title_activity_drawing">Dibujar</string>
+
+    <!-- Menus -->
+    <string name="disconnect">Desconctar</string>
+    <string name="send_image">Enviar imágen</string>
+    <string name="download_image">Descargar imágen</string>
+    <string name="send_audio">Enviar audio</string>
+    <string name="send_video">Enviar video</string>
+    <string name="send_file">Enviar archivo</string>
+    <string name="send_drawing">Enviar dibujo</string>
+
+    <!-- Popup menus -->
+    <string name="pick_image">Escoger imágen</string>
+    <string name="take_photo">Tomar fotos</string>
+
+    <!-- Buttons -->
+    <string name="go_to_settings_button">Herramientas</string>
+    <string name="send_button">Enviar</string>
+    <string name="back_button">Regresar</string>
+    <string name="record_button">Empezar a grabar</string>
+    <string name="playback_button">Reproducir</string>
+    <string name="stop_recording_button">Dejar de grabar</string>
+    <string name="ok">OK</string>
+
+    <!-- TextView -->
+    <string name="go_to_settings_text">Tocar para configurar wifi-direct</string>
+
+    <!-- EditTexts -->
+    <string name="set_chat_name">Por favor escriba un nickname</string>
+    <string name="enter_text">Escriba aquí su mensaje</string>
+
+    <!-- Descriptions -->
+    <string name="full_screen_image">Ver imágen en pantalla completa</string>
+    <string name="file_icon">Icono de archivo</string>
+    <string name="paint">Escoger un color</string>
+    <string name="small">Pequeño</string>
+    <string name="medium">Mediano</string>
+    <string name="large">Grande</string>
+
+    <!-- Drawing buttons -->
+    <string name="new_drawing">Nuevo</string>
+    <string name="brush">Dibujar</string>
+    <string name="Eraser_size">Tamaño del borrador</string>
+    <string name="eraser">Borrar</string>
+    <string name="Brush_size">Tamaño del pincel</string>
+    <string name="save_and_send">Guardar y enviar</string>
+    <string name="file_interno">Memoria interna</string>
+    <string name="file_externo">Memoria externa</string>
+    <string name="noSD">No hay una tarjeta SD en el dispositivo</string>
+    <string name="New_drawing">Nuevo dibujo</string>
+    <string name="contenido_new_drawing">¿Estás seguro de que quieres comenzar un nuevo dibujo? (perderá el dibujo actual)</string>
+
+    <!-- Mensajes -->
+    <string name="Titulo_enviar_mensaje"> Enviar Mensaje</string>
+    <string name="contenido_enivar_mensaje">¿Seguro que quieres enviar este archivo?</string>
+    <string name="titulo_enviar_dibujo">Enviar dibujo</string>
+    <string name="contenido_enivar_dibujo">¿Desea guardar y enviar este dibujo?</string>
+    <string name="Close_chatroom">Cerrar la sala de chat</string>
+    <string name="contenido_Close_chatroom">¿Estás seguro de que quieres cerrar esta sala de chat?,
+        Ya no podrás recibir mensajes, y se borrarán todos los archivos multimedia no guardados.
+        Si usted es el servidor, todos los demás usuarios también se desconectarán.</string>
+    <string name="confirmar">Si</string>
+    <string name="negar">No</string>
+    <string name="CANC">Cancelar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="opciones">Opciones</string>
+    <string name="Borrar_mensaje">Borrar mensaje</string>
+    <string name="copiar_mensaje">Copiar texto del mensaje</string>
+    <string name="Compartir_mensaje">Compartir mensaje de texto</string>
+    <string name="Descargar_imagen">Descargar imagen</string>
+    <string name="Descargar_archivo">Descargar archivo</string>
+    <string name="Descargar_audio">Descargar audio</string>
+    <string name="Descargar_video">Descargar video</string>
+    <string name="Descargar_dibujo">Descargar dibujo</string>
+
+    <!-- Toast -->
+    <string name="mensaje_vacio">Por favor ingrese un mensaje no vacío</string>
+    <string name="title_activity_borrar">Borrar</string>
+    <string name="title_activity_testing">testing</string>
+    <string name="Copy_mensaje">Mensaje copiado en el portapapeles</string>
+    <string name="search_toast">Buscando...</string>
+    <string name="no_search">No se ha podido iniciar la búsqueda</string>
+    <string name="error_connect">Error al conectarse con: </string>
+    <string name="download_image_in">Descrgar imágen en: </string>
+    <string name="download_file">Archivo descargado en: </string>
+    <string name="format1">Formato 1 </string>
+    <string name="format2"> Formato 2 </string>
+
+    <!-- Menu searches and reload -->
+    <string name="search">Búsqueda</string>
+    <string name="reload">Recargar</string>
+
+    <string name="CONECT">Conectando...</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_activity_funcion">Función</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="NOADD">No hay dispositivos agregados</string>
+
+    <string name="NOMSG">No hay mensajes recientes</string>
+
+    <string name="ADD">Usuario agregado a la Base de datos</string>
+    <string name="NADD">Usuario eliminado de la Base de datos</string>
+
+    <string name="TTL">Tiempo de vida de mensajes (Horas) </string>
+    <string name="SAVE">Guardar</string>
+    <string name="GUARD">Configuración ha sido guardada</string>
+
+    <string name="SERV_BUSC">Iniciar servicio de difusión</string>
+    <string name="SERV_CANC">Detener servicio de difusión</string>
+
+    <string name="SERV_INI">Servicio iniciado</string>
+    <string name="SERV_STOP">Servicio detenido</string>
+</resources>

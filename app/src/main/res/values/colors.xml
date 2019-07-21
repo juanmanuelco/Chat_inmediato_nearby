@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1e88e5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="app_background">#FFFFFF</color>
+    <color name="app_text">#1e88e5</color>
+
+    <color name="actionbar_background">#1e88e5</color>
+    <color name="actionbar_text">#FFFFFF</color>
+
+    <color name="chat_text_background">#D6D9FF</color>
+    <color name="chat_text_background_mine">#013991</color>
+    <color name="chat_text">#000</color>
+
+    <color name="texto_busqueda">#FFFFFF</color>
+    <color name="Texto_boton">#fff</color>
+    <color name="fondo_boton">#2196f3</color>
+    <color name="negro">#000000</color>
+
+
+    <color name="button_background">#1e8be2</color>
+    <color name="button_text">#FFFFFF</color>
+
+    <color name="button_background_2">#229dff</color>
+
+    <!-- Generic colors -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#F22613</color>
+    <color name="purple">#8E44AD</color>
+    <color name="yellow">#F4D03F</color>
+    <color name="green">#26C281</color>
+    <color name="blue">#22A7F0</color>
+    <color name="gray">#DADFE1</color>
+    <color name="black_overlay">#66000000</color>
+
+</resources>
