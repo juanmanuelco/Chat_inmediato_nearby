@@ -1,5 +1,9 @@
 package com.facci.chatinmediato;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -11,7 +15,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.AsyncTask;
@@ -27,12 +30,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
 
 import com.facci.chatinmediato.Adapters.ChatAdapter;
 import com.facci.chatinmediato.AsyncTasks.SendMessageClient;
@@ -42,11 +40,8 @@ import com.facci.chatinmediato.Entities.Image;
 import com.facci.chatinmediato.Entities.MediaFile;
 import com.facci.chatinmediato.Entities.Mensaje;
 import com.facci.chatinmediato.NEGOCIO.ESTE_DISPOSITIVO;
-import com.facci.chatinmediato.NEGOCIO.Mensajes;
 import com.facci.chatinmediato.NEGOCIO.OTRO_DISPOSITIVO;
 import com.facci.chatinmediato.Receivers.WifiDirectBroadcastReceiver;
-import com.facci.chatinmediato.Servicios.MessageService;
-import com.facci.chatinmediato.util.ActivityUtilities;
 import com.facci.chatinmediato.util.FileUtilities;
 
 import org.apache.commons.lang3.SerializationUtils;
@@ -54,14 +49,12 @@ import org.apache.commons.lang3.SerializationUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static com.facci.chatinmediato.NEGOCIO.Mensajes.getMacAddr;
 import static com.facci.chatinmediato.NEGOCIO.Mensajes.mostrarMensaje;
 import static com.facci.chatinmediato.NEGOCIO.Validaciones.obtenerPeso;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatOffLineActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE = 1;
     private static final int TAKE_PHOTO = 2;
@@ -75,10 +68,6 @@ public class ChatActivity extends AppCompatActivity {
     private static final int COPY_TEXT = 103;
     private static final int SHARE_TEXT = 104;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_CONTENT_RESOLVER = 101;
-    private WifiP2pManager mManager;
-    private WifiP2pManager.Channel mChannel;
-    private WifiDirectBroadcastReceiver mReceiver;
-    private IntentFilter mIntentFilter;
     private EditText edit;
     private static ListView listView;
     private static List<Mensaje> listMensaje;
@@ -87,53 +76,21 @@ public class ChatActivity extends AppCompatActivity {
     private String fileURL;
     private ArrayList<Uri> tmpFilesUri;
     SharedPreferences sharedPref;
-    WifiManager wifiManager;
     static DB_SOSCHAT db;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat_off_line);
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         db= new DB_SOSCHAT(this);
-        setContentView(R.layout.activity_chat);
-        mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
-        mChannel = mManager.initialize(this, getMainLooper(), null);
-        mReceiver = WifiDirectBroadcastReceiver.createInstance();
-        mReceiver.setmActivity(this);
-        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        final WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        final TextView netInfo = findViewById(R.id.velocidadInternet);
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new TimerTask() {
-                    @Override
-                    public void run() {
-                        int velocidad = wifiInfo.getLinkSpeed();
-                        int frecuencia = 0;
-                        int fuerzaSenal = wifiInfo.getRssi(); //Indicador de fuerza de señal recibida
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
-                            frecuencia = wifiInfo.getFrequency();
-                        netInfo.setText(Mensajes.datosSenal(velocidad, frecuencia, fuerzaSenal));
-                    }
-                });
-            }
-        }, 0, 3000);
-
-        mIntentFilter = new IntentFilter();
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION);
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION);
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION);
-        mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
-
-        //Start the service to receive message
-        startService(new Intent(this, MessageService.class));
 
         //Initialize the adapter for the chat
-        listView = (ListView) findViewById(R.id.messageList);
+        listView = (ListView) findViewById(R.id.messageList_offLine);
         listMensaje = new ArrayList<Mensaje>();
+
+        listMensaje = db.Mensajes_filtro(getMacAddr(),OTRO_DISPOSITIVO.MacOnclic);
 
         chatAdapter = new ChatAdapter(this, listMensaje);
         listView.setAdapter(chatAdapter);
@@ -142,64 +99,30 @@ public class ChatActivity extends AppCompatActivity {
         tmpFilesUri = new ArrayList<Uri>();
 
         //Send a message
-        Button button = (Button) findViewById(R.id.sendMessage);
-        edit = (EditText) findViewById(R.id.editMessage);
+        Button button = (Button) findViewById(R.id.sendMessage_offline);
+        edit = (EditText) findViewById(R.id.editMessage_offline);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 if (!edit.getText().toString().equals(""))
                     sendMessage(Mensaje.TEXT_MESSAGE);
                 else
-                    Toast.makeText(ChatActivity.this, R.string.mensaje_vacio, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ChatOffLineActivity.this, R.string.mensaje_vacio, Toast.LENGTH_SHORT).show();
             }
         });
         registerForContextMenu(listView);
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        diseminacion(db.todos_mensajes());
-        ActivityUtilities.customiseActionBar(this);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        registerReceiver(mReceiver, mIntentFilter);
-        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
-            @Override
-            public void onSuccess() {
-            }
-            @Override
-            public void onFailure(int reason) {
-            }
-        });
-        saveStateForeground(true);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        unregisterReceiver(mReceiver);
-        saveStateForeground(false);
-    }
-
-    @Override
     public void onBackPressed() {
         AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
         newDialog.setTitle(R.string.Close_chatroom);
-        newDialog.setMessage(R.string.contenido_Close_chatroom);
+        newDialog.setMessage(R.string.contenido_Close_chatroom_offline);
         newDialog.setPositiveButton(R.string.confirmar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                wifiManager.setWifiEnabled(false);
-                wifiManager.setWifiEnabled(true);
                 clearTmpFiles(getExternalFilesDir(null));
-                if (FuncionActivity.server != null)
-                    FuncionActivity.server.interrupt();
-                android.os.Process.killProcess(android.os.Process.myPid());
+                finish();
             }
         });
         newDialog.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
@@ -210,6 +133,19 @@ public class ChatActivity extends AppCompatActivity {
         });
         newDialog.show();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        saveStateForeground(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveStateForeground(false);
+    }
+
 
     @SuppressLint("MissingSuperCall")
     @Override
@@ -269,29 +205,6 @@ public class ChatActivity extends AppCompatActivity {
                 break;
         }
     }
-
-    public void diseminacion(List<Mensaje>mensajes){
-        for (final Mensaje mensaje:mensajes ) {
-            AsyncTask proceso= new AsyncTask() {
-                @Override
-                protected Object doInBackground(Object[] objects) {
-                    enviarDiseminado(mensaje);
-                    return null;
-                }
-            };
-            proceso.execute();
-        }
-
-    }
-
-    public void enviarDiseminado(Mensaje mensaje){
-        mensaje.setIdentificacion(false);
-        if (mReceiver.isGroupeOwner() == WifiDirectBroadcastReceiver.IS_OWNER)
-            new SendMessageServer(ChatActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mensaje);
-        else if (mReceiver.isGroupeOwner() == WifiDirectBroadcastReceiver.IS_CLIENT)
-            new SendMessageClient(ChatActivity.this, mReceiver.getOwnerAddr()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mensaje);
-    }
-
     public void sendMessage(int type) {
         long millis = System.currentTimeMillis();
         Mensaje mes = new Mensaje(type, edit.getText().toString(), null, ESTE_DISPOSITIVO.miNickName);
@@ -332,10 +245,7 @@ public class ChatActivity extends AppCompatActivity {
                 break;
         }
         db.guardarRegistro(mes,this);
-        if (mReceiver.isGroupeOwner() == WifiDirectBroadcastReceiver.IS_OWNER)
-            new SendMessageServer(ChatActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mes);
-        else if (mReceiver.isGroupeOwner() == WifiDirectBroadcastReceiver.IS_CLIENT)
-            new SendMessageClient(ChatActivity.this, mReceiver.getOwnerAddr()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mes);
+        refreshList(mes);
         edit.setText("");
     }
 
@@ -405,7 +315,7 @@ public class ChatActivity extends AppCompatActivity {
                         dialog.cancel();
                         listMensaje.clear();
                         chatAdapter.notifyDataSetChanged();
-                        mostrarMensaje("Listo", "Registro vaciado", ChatActivity.this);
+                        mostrarMensaje("Listo", "Registro vaciado", ChatOffLineActivity.this);
                     }
                 });
                 alertDialogBuilder.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
@@ -581,5 +491,4 @@ public class ChatActivity extends AppCompatActivity {
                 startActivity(sendIntent);
         }
     }
-
 }

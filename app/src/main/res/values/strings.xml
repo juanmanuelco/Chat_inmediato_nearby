@@ -99,6 +99,7 @@
     <string name="contenido_Close_chatroom">¿Estás seguro de que quieres cerrar esta sala de chat?,
         Ya no podrás recibir mensajes, y se borrarán todos los archivos multimedia no guardados.
         Si usted es el servidor, todos los demás usuarios también se desconectarán.</string>
+    <string name="contenido_Close_chatroom_offline">Esta a punto de cerrar la sala de chat, ¿Esta seguro?</string>
     <string name="confirmar">Si</string>
     <string name="negar">No</string>
     <string name="CANC">Cancelar</string>

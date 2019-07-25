@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.facci.chatinmediato.Adapters.AdaptadorDispositivos;
 import com.facci.chatinmediato.ChatActivity;
 import com.facci.chatinmediato.DB.DB_SOSCHAT;
+import com.facci.chatinmediato.Entities.Usuario;
 import com.facci.chatinmediato.Fragments.FM_encontrados;
 import com.facci.chatinmediato.FuncionActivity;
 import com.facci.chatinmediato.InitThreads.ClientInit;
@@ -55,6 +56,8 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
     WifiP2pDevice[] deviceArray;
     FM_encontrados fm;
 
+    Usuario us;
+
     RecyclerView RV;
     ProgressDialog pDialog;
 
@@ -85,6 +88,7 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
         listado2= new ArrayList<>();
         wifiManager = (WifiManager) mActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
+        us = new Usuario();
         db = new DB_SOSCHAT(context);
 
         if(action.equals(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION)){
@@ -109,6 +113,8 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
 
                                     listado.add(new String[]{device.deviceName, device.deviceAddress});
                                     listado2.add(device.deviceName+","+device.deviceAddress);
+
+                                    db.insertarUsuario(device.deviceAddress, device.deviceName);
 
                                 deviceArray[index]= device;
                                 index++;
@@ -141,6 +147,7 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
             }
             return;
         }
+
         if(action.equals(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION)){
             return;
         }

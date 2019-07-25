@@ -58,10 +58,18 @@ public class AdaptadorDispositivos extends RecyclerView.Adapter<AdaptadorDisposi
             String nombre= Character.toUpperCase(listado.get(i)[0].charAt(0)) + listado.get(i)[0].substring(1,listado.get(i)[0].length());
             viewHolderDatos.txtNombre.setText(nombre);
             viewHolderDatos.txtMAC.setText(listado.get(i)[1]);
+            if(db.validarAgregado(listado.get(i)[1])){
+                viewHolderDatos.sw_agregado.setChecked(true);
+            }else{
+                viewHolderDatos.sw_agregado.setChecked(false);
+            }
             viewHolderDatos.sw_agregado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                    int respuesta=0;
+                    if(isChecked){ respuesta=db.ActualizarUsuario(listado.get(i)[1], true);}
+                    else{ respuesta=db.ActualizarUsuario(listado.get(i)[1], false);}
+                    Snackbar.make(view, context.getString(respuesta), Snackbar.LENGTH_SHORT).show();
                 }
             });
         }catch (Exception e){

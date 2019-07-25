@@ -45,7 +45,7 @@ public class ReceiveMessageServer extends AbstractReceiver {
 					mensaje.setTiempoRecibo(System.currentTimeMillis());
 				if(mensaje.getMacDestino().equals(""))
 					mensaje.setMacDestino(getMacAddr());
-				if(db.validarRegistro(mensaje))db.guardarRegistro(mensaje);
+				if(db.validarRegistro(mensaje))db.guardarRegistro(mensaje,mContext);
 				else db.actualizarDestino(mensaje.getTiempoEnvio(), OTRO_DISPOSITIVO.MacAddress, mensaje.getTiempoRecibo());
 
 				clientSocket.close();

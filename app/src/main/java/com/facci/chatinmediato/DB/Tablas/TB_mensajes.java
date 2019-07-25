@@ -1,6 +1,8 @@
 package com.facci.chatinmediato.DB.Tablas;
 
+import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.facci.chatinmediato.DB.DB_SOSCHAT;
 import com.facci.chatinmediato.Entities.Mensaje;
@@ -11,6 +13,7 @@ import com.facci.chatinmediato.NEGOCIO.Validaciones;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.facci.chatinmediato.NEGOCIO.Mensajes.getMacAddr;
 import static com.facci.chatinmediato.NEGOCIO.Validaciones.Formateados;
 import static com.facci.chatinmediato.NEGOCIO.Validaciones.FormateadosR;
 import static com.facci.chatinmediato.NEGOCIO.Validaciones.obtenerInetAddress;
@@ -61,28 +64,33 @@ public class TB_mensajes {
         return String.format("DROP TABLE IF EXISTS %s",NOMBRE);
     }
 
-    public static String Guardar(Mensaje m){
-        if(db.validarRegistro(m)){
-            return String.format("INSERT INTO %s VALUES (NULL, "+FormateadosR(14)+")",
-                    NOMBRE,
-                    m.getTipo(),
-                    m.getTexto(),
-                    m.getChatName(),
-                    m.getByteArray(),
-                    m.getAddress(),
-                    m.getNombreArchivo(),
-                    m.getTamanoArchivo(),
-                    m.getPathArchivo(),
-                    m.getMacOrigen(),
-                    m.getMacDestino(),
-                    m.getTiempoEnvio(),
-                    m.getTiempoRecibo(),
-                    m.getLatitud(),
-                    m.getLongitud()
-            );
-        }
-        else{
-            return "0";
+    public static String Guardar(Mensaje m, Context context){
+        try{
+            db = new DB_SOSCHAT(context);
+            if(db.validarRegistro(m)){
+                return String.format("INSERT INTO %s VALUES (NULL, "+FormateadosR(14)+")",
+                        NOMBRE,
+                        m.getTipo(),
+                        m.getTexto(),
+                        m.getChatName(),
+                        m.getByteArray(),
+                        m.getAddress(),
+                        m.getNombreArchivo(),
+                        m.getTamanoArchivo(),
+                        m.getPathArchivo(),
+                        m.getMacOrigen(),
+                        m.getMacDestino(),
+                        m.getTiempoEnvio(),
+                        m.getTiempoRecibo(),
+                        m.getLatitud(),
+                        m.getLongitud()
+                );
+            }
+            else{
+                return "0";
+            }
+        }catch (Exception e){
+            return "Errores "+e;
         }
     }
     public static boolean mensaje_guardado(Cursor registro, Mensaje mes){

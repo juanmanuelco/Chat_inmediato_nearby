@@ -5,6 +5,10 @@ public class Usuario {
     private  String userName ;
     private  boolean userEstado ;
 
+    public Usuario() {
+
+    }
+
     public String getUserMac(){
         return userMac;
     }

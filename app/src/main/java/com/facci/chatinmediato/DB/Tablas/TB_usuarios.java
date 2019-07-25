@@ -1,11 +1,17 @@
 package com.facci.chatinmediato.DB.Tablas;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+
+import com.facci.chatinmediato.DB.DB_SOSCHAT;
 import com.facci.chatinmediato.Entities.Mensaje;
 import com.facci.chatinmediato.Entities.Usuario;
+import com.facci.chatinmediato.NEGOCIO.ESTE_DISPOSITIVO;
 
 import java.util.List;
 
 public class TB_usuarios {
+    static DB_SOSCHAT db = ESTE_DISPOSITIVO.db; ;
     public static final String NOMBRE   = " USUARIOS ";
     public static String ID             = " ID INTEGER PRIMARY KEY AUTOINCREMENT ";
     public static String USER_MAC       = " USER_MAC TEXT ";
