@@ -212,6 +212,7 @@ public class ChatOffLineActivity extends AppCompatActivity {
         mes.setIdentificacion(true);
         mes.setMacOrigen(getMacAddr());
         mes.setMacDestino(OTRO_DISPOSITIVO.MacAddress);
+        mes.setEmergente(false);
         switch (type) {
             case Mensaje.IMAGE_MESSAGE:
                 Image image = new Image(this, fileUri);
@@ -244,12 +245,12 @@ public class ChatOffLineActivity extends AppCompatActivity {
                 mes.setPathArchivo(drawingFile.getFilePath());
                 break;
         }
-        db.guardarRegistro(mes,this);
-        refreshList(mes);
+        refreshList(mes,this);
         edit.setText("");
     }
 
-    public static void refreshList(Mensaje mensaje) {
+    public static void refreshList(Mensaje mensaje,Context context) {
+        db.guardarRegistro(mensaje,context);
         byte[] data = SerializationUtils.serialize(mensaje);
         String peso=obtenerPeso(data.length);
         //mensaje.setTexto(peso);

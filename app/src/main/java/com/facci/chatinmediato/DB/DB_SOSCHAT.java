@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.facci.chatinmediato.DB.Tablas.TB_mensajes;
 import com.facci.chatinmediato.DB.Tablas.TB_usuarios;
@@ -46,7 +47,7 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
         String query = "";
         if (obj.getClass() == Mensaje.class) query = TB_mensajes.Guardar((Mensaje) obj,context);
         if (obj.getClass() == Usuario.class) query = TB_usuarios.Guardar((Usuario) obj);
-        if(!query.equals("0")){db.execSQL(query);}
+        if(!query.equals("0")){db.execSQL(query); }
     }
 
     public Boolean validarRegistro(Mensaje mes) {
@@ -69,9 +70,10 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
     }
 
     public List<Mensaje> Mensajes_filtro(String mac_origen, String mac_destino){
+        Log.i("Macs","Origen: "+mac_origen+" Destino: "+mac_destino);
         List<Mensaje> respuesta = new ArrayList<Mensaje>();
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM MENSAJES_SOSCHAT WHERE (MAC_ORIGEN=mac_origen AND MAC_DESTINO=mac_destino) OR (MAC_ORIGEN=mac_origen AND MAC_DESTINO=mac_destino) ", null);
+        Cursor cursor = db.rawQuery(String.format("select * from MENSAJES_SOSCHAT where (MAC_ORIGEN='"+mac_origen+"' AND MAC_DESTINO='"+mac_destino+"')OR(MAC_ORIGEN='"+mac_origen+"' AND MAC_DESTINO='"+mac_destino+"')"), null);
         return TB_mensajes.todos(cursor);
     }
 

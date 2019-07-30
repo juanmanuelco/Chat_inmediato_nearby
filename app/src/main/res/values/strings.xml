@@ -52,6 +52,7 @@
     <!-- Popup menus -->
     <string name="pick_image">Escoger imágen</string>
     <string name="take_photo">Tomar fotos</string>
+    <string name="envio_emergente">Enviar mensaje Emergente</string>
 
     <!-- Buttons -->
     <string name="go_to_settings_button">Herramientas</string>

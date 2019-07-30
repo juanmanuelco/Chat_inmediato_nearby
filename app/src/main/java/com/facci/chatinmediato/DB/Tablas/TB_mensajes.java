@@ -3,6 +3,7 @@ package com.facci.chatinmediato.DB.Tablas;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import com.facci.chatinmediato.DB.DB_SOSCHAT;
 import com.facci.chatinmediato.Entities.Mensaje;
@@ -36,6 +37,8 @@ public class TB_mensajes {
     public static String TIEMPO_RECIBO  = " TIEMPO_RECIBO NUMERIC";
     public static String LATITUD        = " LATITUD NUMERIC";
     public static String LONGITUD       = " LONGITUD NUMERIC";
+    public static String EMERGENTE      = " EMERGENTE NUMERIC";
+
 
 
     public static final String nombre   = " MENSAJES_SOSCHAT ";
@@ -56,9 +59,9 @@ public class TB_mensajes {
     public static String longitud       = " LONGITUD ";
 
     public static String CrearTablaMensaje(){
-        return String.format("CREATE TABLE %s ("+Formateados(15)+")",
+        return String.format("CREATE TABLE %s ("+Formateados(16)+")",
                 NOMBRE, ID, TIPO, TEXTO, CHATNAME, BYTEARRAY, DIRECCION, NOMBRE_ARCHIVO,
-                TAMANO_ARCHIVO, PATH_ARCHIVO, MAC_ORIGEN, MAC_DESTINO, TIEMPO_ENVIO, TIEMPO_RECIBO, LATITUD, LONGITUD);
+                TAMANO_ARCHIVO, PATH_ARCHIVO, MAC_ORIGEN, MAC_DESTINO, TIEMPO_ENVIO, TIEMPO_RECIBO, LATITUD, LONGITUD, EMERGENTE);
     }
     public static String EliminarTabla(){
         return String.format("DROP TABLE IF EXISTS %s",NOMBRE);
@@ -68,7 +71,8 @@ public class TB_mensajes {
         try{
             db = new DB_SOSCHAT(context);
             if(db.validarRegistro(m)){
-                return String.format("INSERT INTO %s VALUES (NULL, "+FormateadosR(14)+")",
+                Toast.makeText(context, "GuardoRegistro", Toast.LENGTH_SHORT).show();
+                return String.format("INSERT INTO %s VALUES (NULL, "+FormateadosR(15)+")",
                         NOMBRE,
                         m.getTipo(),
                         m.getTexto(),
@@ -83,7 +87,8 @@ public class TB_mensajes {
                         m.getTiempoEnvio(),
                         m.getTiempoRecibo(),
                         m.getLatitud(),
-                        m.getLongitud()
+                        m.getLongitud(),
+                        m.getEmergente()
                 );
             }
             else{

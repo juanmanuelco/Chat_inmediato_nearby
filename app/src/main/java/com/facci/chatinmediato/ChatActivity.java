@@ -299,6 +299,7 @@ public class ChatActivity extends AppCompatActivity {
         mes.setIdentificacion(true);
         mes.setMacOrigen(getMacAddr());
         mes.setMacDestino(OTRO_DISPOSITIVO.MacAddress);
+        mes.setEmergente(false);
         switch (type) {
             case Mensaje.IMAGE_MESSAGE:
                 Image image = new Image(this, fileUri);

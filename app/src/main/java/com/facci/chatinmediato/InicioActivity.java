@@ -13,22 +13,29 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 
 import com.facci.chatinmediato.DB.DB_SOSCHAT;
+import com.facci.chatinmediato.Entities.Mensaje;
 import com.facci.chatinmediato.NEGOCIO.Dispositivo;
 import com.facci.chatinmediato.NEGOCIO.ESTE_DISPOSITIVO;
 import com.facci.chatinmediato.NEGOCIO.Mensajes;
+import com.facci.chatinmediato.NEGOCIO.OTRO_DISPOSITIVO;
 import com.facci.chatinmediato.NEGOCIO.Validaciones;
 import com.facci.chatinmediato.Servicios.Nerby;
 import com.facci.chatinmediato.Servicios.Ubicacion;
@@ -43,6 +50,9 @@ import static com.facci.chatinmediato.NEGOCIO.Dispositivo.hasPermissions;
 import static com.facci.chatinmediato.NEGOCIO.ESTE_DISPOSITIVO.db;
 import static com.facci.chatinmediato.NEGOCIO.Mensajes.getMacAddr;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 public class InicioActivity extends AppCompatActivity implements OnMapReadyCallback{
     Context           context;
     WifiManager       wifiManager;
@@ -54,12 +64,15 @@ public class InicioActivity extends AppCompatActivity implements OnMapReadyCallb
     ProgressDialog    pDialog;
     SharedPreferences sharedPref;
     Activity activity;
-    DB_SOSCHAT db;
+    private LinearLayout view_popup;
+    static DB_SOSCHAT db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ESTE_DISPOSITIVO.context = this;
         setContentView(R.layout.activity_inicio);
+        view_popup=findViewById(R.id.InicioActivityLayout);
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if(!wifiManager.isWifiEnabled()) wifiManager.setWifiEnabled(true);
         Dispositivo.requestPermissionFromDevice(this);
@@ -153,7 +166,8 @@ public class InicioActivity extends AppCompatActivity implements OnMapReadyCallb
         // Aqui tendran los eventos los iconos en el toolbar
         switch (item.getItemId()) {
             case R.id.emergencia:
-                Toast.makeText(this,"Emergencia",Toast.LENGTH_LONG).show();
+                View MenuEmergente = findViewById(R.id.emergencia);
+                showPopup(MenuEmergente);
                 return true;
             case R.id.configuracion:
                 final View mView= getLayoutInflater().inflate(R.layout.dialogo_configuracion, null);
@@ -232,4 +246,76 @@ public class InicioActivity extends AppCompatActivity implements OnMapReadyCallb
         mMapView.onLowMemory();
         if (pDialog != null) pDialog.dismiss();
     }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.envio_emergente:
+                        ShowPopupWindows();
+                        Toast.makeText(InicioActivity.this,"Emergencia",Toast.LENGTH_LONG).show();
+                        break;
+                }
+                return true;
+            }
+        });
+        //popup.inflate(R.menu.seleccionar_archivo);
+        /*  The below code in try catch is responsible to display icons*/
+        try {
+            Field[] fields = popup.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                if ("mPopup".equals(field.getName())) {
+                    field.setAccessible(true);
+                    Object menuPopupHelper = field.get(popup);
+                    Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                    Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                    setForceIcons.invoke(menuPopupHelper, true);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        popup.getMenuInflater().inflate(R.menu.envio_emergencia, popup.getMenu());
+        popup.show();
+    }
+
+    public void ShowPopupWindows(){
+        View popupView = getLayoutInflater().inflate(R.layout.boton_panico_mensaje, null);
+
+        final PopupWindow popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        popupWindow.setTouchable(true);
+        popupWindow.setFocusable(true);
+
+        popupWindow.showAtLocation(view_popup, Gravity.CENTER, 0, 0);
+
+        View vista = popupWindow.getContentView();
+
+        final EditText sms = (EditText) vista.findViewById(R.id.edt_msm_emergencia);
+        Button  btn_enviar_sms = (Button) vista.findViewById(R.id.btn_enviar_msm_emergencia);
+
+        sms.setText("Estoy en una emergencia, necesito ayuda mis coordenadas son, LATITUD:"+ ESTE_DISPOSITIVO.latitud+" LONGITUD:"+ESTE_DISPOSITIVO.longitud);
+
+        btn_enviar_sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long millis = System.currentTimeMillis();
+                Mensaje mes = new Mensaje(1, sms.getText().toString(), null, ESTE_DISPOSITIVO.miNickName);
+                mes.setTiempoEnvio(Math.abs(millis));
+                mes.setIdentificacion(true);
+                mes.setMacOrigen(getMacAddr());
+                mes.setMacDestino(OTRO_DISPOSITIVO.MacAddress);
+                mes.setEmergente(true);
+
+                db.guardarRegistro(mes,InicioActivity.this);
+
+            }
+        });
+    }
+
 }
