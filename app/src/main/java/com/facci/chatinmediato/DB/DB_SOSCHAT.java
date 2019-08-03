@@ -22,17 +22,19 @@ import static com.facci.chatinmediato.NEGOCIO.Mensajes.getMacAddr;
 
 public class DB_SOSCHAT extends SQLiteOpenHelper {
 
-    public static final String DB_NOMBRE = "DB_SOSCHAT_V4.db";
-
+    public static final String DB_NOMBRE = "DB_SOSCHAT_V5.db";
+    Context ct;
     public DB_SOSCHAT(Context context) {
         super(context, DB_NOMBRE, null, 1);
         SQLiteDatabase db = this.getWritableDatabase();
+        this.ct = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TB_mensajes.CrearTablaMensaje());
         db.execSQL(TB_usuarios.CrearTablaUsuario());
+        db.execSQL(String.format("INSERT INTO USUARIOS VALUES ( NULL,'3d:12:12:12:12','Dispositivo1', 'true')"));
     }
 
     @Override
@@ -42,10 +44,10 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void guardarRegistro(Object obj, Context context) {
+    public void guardarRegistro(Object obj) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "";
-        if (obj.getClass() == Mensaje.class) query = TB_mensajes.Guardar((Mensaje) obj,context);
+        if (obj.getClass() == Mensaje.class) query = TB_mensajes.Guardar((Mensaje) obj,ct);
         if (obj.getClass() == Usuario.class) query = TB_usuarios.Guardar((Usuario) obj);
         if(!query.equals("0")){db.execSQL(query); }
     }
@@ -73,7 +75,7 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
         Log.i("Macs","Origen: "+mac_origen+" Destino: "+mac_destino);
         List<Mensaje> respuesta = new ArrayList<Mensaje>();
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(String.format("select * from MENSAJES_SOSCHAT where (MAC_ORIGEN='"+mac_origen+"' AND MAC_DESTINO='"+mac_destino+"')OR(MAC_ORIGEN='"+mac_origen+"' AND MAC_DESTINO='"+mac_destino+"')"), null);
+        Cursor cursor = db.rawQuery(String.format("select * from MENSAJES_SOSCHAT where (MAC_ORIGEN='"+mac_origen+"' AND MAC_DESTINO='"+mac_destino+"')OR(MAC_DESTINO='"+mac_origen+"' AND MAC_ORIGEN='"+mac_destino+"')"), null);
         return TB_mensajes.todos(cursor);
     }
 

@@ -2,8 +2,6 @@ package com.facci.chatinmediato.DB.Tablas;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
 import com.facci.chatinmediato.DB.DB_SOSCHAT;
 import com.facci.chatinmediato.Entities.Mensaje;
@@ -14,7 +12,6 @@ import com.facci.chatinmediato.NEGOCIO.Validaciones;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.facci.chatinmediato.NEGOCIO.Mensajes.getMacAddr;
 import static com.facci.chatinmediato.NEGOCIO.Validaciones.Formateados;
 import static com.facci.chatinmediato.NEGOCIO.Validaciones.FormateadosR;
 import static com.facci.chatinmediato.NEGOCIO.Validaciones.obtenerInetAddress;
@@ -37,8 +34,6 @@ public class TB_mensajes {
     public static String TIEMPO_RECIBO  = " TIEMPO_RECIBO NUMERIC";
     public static String LATITUD        = " LATITUD NUMERIC";
     public static String LONGITUD       = " LONGITUD NUMERIC";
-    public static String EMERGENTE      = " EMERGENTE NUMERIC";
-
 
 
     public static final String nombre   = " MENSAJES_SOSCHAT ";
@@ -59,43 +54,37 @@ public class TB_mensajes {
     public static String longitud       = " LONGITUD ";
 
     public static String CrearTablaMensaje(){
-        return String.format("CREATE TABLE %s ("+Formateados(16)+")",
+        return String.format("CREATE TABLE %s ("+Formateados(15)+")",
                 NOMBRE, ID, TIPO, TEXTO, CHATNAME, BYTEARRAY, DIRECCION, NOMBRE_ARCHIVO,
-                TAMANO_ARCHIVO, PATH_ARCHIVO, MAC_ORIGEN, MAC_DESTINO, TIEMPO_ENVIO, TIEMPO_RECIBO, LATITUD, LONGITUD, EMERGENTE);
+                TAMANO_ARCHIVO, PATH_ARCHIVO, MAC_ORIGEN, MAC_DESTINO, TIEMPO_ENVIO, TIEMPO_RECIBO, LATITUD, LONGITUD);
     }
     public static String EliminarTabla(){
         return String.format("DROP TABLE IF EXISTS %s",NOMBRE);
     }
 
     public static String Guardar(Mensaje m, Context context){
-        try{
-            db = new DB_SOSCHAT(context);
-            if(db.validarRegistro(m)){
-                Toast.makeText(context, "GuardoRegistro", Toast.LENGTH_SHORT).show();
-                return String.format("INSERT INTO %s VALUES (NULL, "+FormateadosR(15)+")",
-                        NOMBRE,
-                        m.getTipo(),
-                        m.getTexto(),
-                        m.getChatName(),
-                        m.getByteArray(),
-                        m.getAddress(),
-                        m.getNombreArchivo(),
-                        m.getTamanoArchivo(),
-                        m.getPathArchivo(),
-                        m.getMacOrigen(),
-                        m.getMacDestino(),
-                        m.getTiempoEnvio(),
-                        m.getTiempoRecibo(),
-                        m.getLatitud(),
-                        m.getLongitud(),
-                        m.getEmergente()
-                );
-            }
-            else{
-                return "0";
-            }
-        }catch (Exception e){
-            return "Errores "+e;
+        db = new DB_SOSCHAT(context);
+        if(db.validarRegistro(m)){
+            return String.format("INSERT INTO %s VALUES (NULL, "+FormateadosR(14)+")",
+                    NOMBRE,
+                    m.getTipo(),
+                    m.getTexto(),
+                    m.getChatName(),
+                    m.getByteArray(),
+                    m.getAddress(),
+                    m.getNombreArchivo(),
+                    m.getTamanoArchivo(),
+                    m.getPathArchivo(),
+                    m.getMacOrigen(),
+                    m.getMacDestino(),
+                    m.getTiempoEnvio(),
+                    m.getTiempoRecibo(),
+                    m.getLatitud(),
+                    m.getLongitud()
+            );
+        }
+        else{
+            return "0";
         }
     }
     public static boolean mensaje_guardado(Cursor registro, Mensaje mes){

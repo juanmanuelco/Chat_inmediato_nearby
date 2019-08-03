@@ -299,7 +299,7 @@ public class ChatActivity extends AppCompatActivity {
         mes.setIdentificacion(true);
         mes.setMacOrigen(getMacAddr());
         mes.setMacDestino(OTRO_DISPOSITIVO.MacAddress);
-        mes.setEmergente(false);
+        mes.setEmergente("false");
         switch (type) {
             case Mensaje.IMAGE_MESSAGE:
                 Image image = new Image(this, fileUri);
@@ -332,7 +332,7 @@ public class ChatActivity extends AppCompatActivity {
                 mes.setPathArchivo(drawingFile.getFilePath());
                 break;
         }
-        db.guardarRegistro(mes,this);
+        db.guardarRegistro(mes);
         if (mReceiver.isGroupeOwner() == WifiDirectBroadcastReceiver.IS_OWNER)
             new SendMessageServer(ChatActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mes);
         else if (mReceiver.isGroupeOwner() == WifiDirectBroadcastReceiver.IS_CLIENT)

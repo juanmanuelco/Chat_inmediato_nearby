@@ -37,7 +37,7 @@ public class Mensaje implements Serializable{
 	private boolean identificacion=true;
 	private long latitud =0;
 	private long longitud =0;
-	private boolean emergente ;
+	private String emergente ;
 
 	/**Obtener elementos del sistema*/
 	public int getTipo(){return mType;}
@@ -55,7 +55,7 @@ public class Mensaje implements Serializable{
 	public Boolean getIdentificacion(){return identificacion;}
 	public long getLatitud(){return latitud;}
 	public long getLongitud(){return longitud;}
-	public boolean getEmergente() { return emergente; }
+	public String getEmergente() { return emergente; }
 
 
 	/**Sitiar elemtos del sistema*/
@@ -74,7 +74,7 @@ public class Mensaje implements Serializable{
     public void setIdentificacion(Boolean identificacion){this.identificacion=identificacion;}
     public void setLatitud(long latitud){this.latitud = latitud;}
     public void setLongitud(long longitud){this.longitud = longitud;}
-	public void setEmergente(boolean emergente) { this.emergente = emergente; }
+	public void setEmergente(String emergente) { this.emergente = emergente; }
 
 
 

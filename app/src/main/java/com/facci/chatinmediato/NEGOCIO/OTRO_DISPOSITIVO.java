@@ -5,4 +5,5 @@ public class OTRO_DISPOSITIVO {
     public static String MacAddress="";
     public static String Address="";
     public static String MacOnclic="";
+    public static String nombreOffline="";
 }

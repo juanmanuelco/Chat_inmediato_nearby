@@ -112,7 +112,7 @@ public class Listeners {
             try {
                 Mensaje msg = (Mensaje) Validaciones.NearbyDeserialize(payload.asBytes());
                 Toast.makeText(context, "Recepcion de: "+msg.getTexto(), Toast.LENGTH_SHORT).show();
-                db.guardarRegistro(msg,context);
+                db.guardarRegistro(msg);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {

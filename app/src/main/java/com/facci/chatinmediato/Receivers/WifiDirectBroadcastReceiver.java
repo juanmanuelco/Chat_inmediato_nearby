@@ -12,6 +12,7 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -60,6 +61,9 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
 
     RecyclerView RV;
     ProgressDialog pDialog;
+
+    String MacCalculo;
+    StringBuilder MacAddress;
 
     private static WifiDirectBroadcastReceiver instance;
 
@@ -110,11 +114,16 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
                             deviceArray= new WifiP2pDevice[peerList.getDeviceList().size()];
                             int index=0;
                             for(WifiP2pDevice device : peerList.getDeviceList()){
+                                MacCalculo = restarHexadecimal(device.deviceAddress.substring(0,2));
+                                Log.i("RestaMac", " Mac calculada: "+MacCalculo+" Mac normal: "+device.deviceAddress);
+                                MacAddress = new StringBuilder(device.deviceAddress);
+                                MacAddress.setCharAt(0,MacCalculo.charAt(0));
+                                MacAddress.setCharAt(1,MacCalculo.charAt(1));
 
-                                    listado.add(new String[]{device.deviceName, device.deviceAddress});
-                                    listado2.add(device.deviceName+","+device.deviceAddress);
+                                listado.add(new String[]{device.deviceName, MacAddress.toString().toLowerCase()});
+                                listado2.add(device.deviceName+","+device.deviceAddress);
 
-                                    db.insertarUsuario(device.deviceAddress, device.deviceName);
+                                db.insertarUsuario(device.deviceAddress, device.deviceName);
 
                                 deviceArray[index]= device;
                                 index++;
@@ -183,5 +192,49 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
     }
     public ArrayList<String> retornar(){
         return listado2;
+    }
+    private static String restarHexadecimal(String primervalor) {
+        String primerOperando = convertirHexadecimalADecimal(primervalor);
+        String segundoOperando = convertirHexadecimalADecimal("02");
+
+        int primero = Integer.parseInt(primerOperando);
+        int segundo = Integer.parseInt(segundoOperando);
+        Log.i("RestaHex","Primero: "+primero+" Segundo: "+segundo);
+        int operacion = primero - segundo;
+
+        String resultado = "" + operacion;
+        return convertirDecimalAhexadecimal(resultado);
+    }
+
+    public static String convertirHexadecimalADecimal(String base){
+        String digitos = "0123456789ABCDEF";
+        String decimal = "";
+        base = base.toUpperCase();
+        int decimalInt = 0;
+        for (int i = 0; i < base.length(); i++)
+        {
+            char c = base.charAt(i);
+            int d = digitos.indexOf(c);
+            decimalInt = 16 * decimalInt + d;
+        }
+        decimal += decimalInt;
+        return decimal;
+    }
+
+    public static String convertirDecimalAhexadecimal(String bas){
+        int decimal = Integer.parseInt(bas);
+        String digits = "0123456789ABCDEF";
+        if (decimal == 0)
+            return "00";
+        String hexde = "";
+        while (decimal > 0) {
+            int mod = decimal % 16; // DÃƒÂ­gito de la derecha
+            hexde = digits.charAt(mod) + hexde; // ConcatenaciÃƒÂ³n de cadenas
+            decimal = decimal / 16;
+        }
+        if(hexde.length() == 1){
+            hexde = "0"+hexde;
+        }
+        return hexde;
     }
 }
