@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.facci.chatinmediato.Adapters.AdaptadorDispositivos;
 import com.facci.chatinmediato.ChatActivity;
 import com.facci.chatinmediato.DB.DB_SOSCHAT;
-import com.facci.chatinmediato.Entities.Usuario;
 import com.facci.chatinmediato.Fragments.FM_encontrados;
 import com.facci.chatinmediato.FuncionActivity;
 import com.facci.chatinmediato.InitThreads.ClientInit;
@@ -57,8 +56,6 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
     WifiP2pDevice[] deviceArray;
     FM_encontrados fm;
 
-    Usuario us;
-
     RecyclerView RV;
     ProgressDialog pDialog;
 
@@ -92,7 +89,6 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
         listado2= new ArrayList<>();
         wifiManager = (WifiManager) mActivity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
-        us = new Usuario();
         db = new DB_SOSCHAT(context);
 
         if(action.equals(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION)){
@@ -114,16 +110,18 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
                             deviceArray= new WifiP2pDevice[peerList.getDeviceList().size()];
                             int index=0;
                             for(WifiP2pDevice device : peerList.getDeviceList()){
+
                                 MacCalculo = restarHexadecimal(device.deviceAddress.substring(0,2));
                                 Log.i("RestaMac", " Mac calculada: "+MacCalculo+" Mac normal: "+device.deviceAddress);
                                 MacAddress = new StringBuilder(device.deviceAddress);
                                 MacAddress.setCharAt(0,MacCalculo.charAt(0));
                                 MacAddress.setCharAt(1,MacCalculo.charAt(1));
 
+
                                 listado.add(new String[]{device.deviceName, MacAddress.toString().toLowerCase()});
                                 listado2.add(device.deviceName+","+device.deviceAddress);
 
-                                db.insertarUsuario(device.deviceAddress, device.deviceName);
+                                db.insertarUsuario(MacAddress.toString().toLowerCase(), device.deviceName);
 
                                 deviceArray[index]= device;
                                 index++;
@@ -156,7 +154,6 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
             }
             return;
         }
-
         if(action.equals(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION)){
             return;
         }
