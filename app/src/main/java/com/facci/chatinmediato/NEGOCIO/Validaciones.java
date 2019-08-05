@@ -113,4 +113,17 @@ public class Validaciones {
         if(peso<1024) mensaje= peso +" Bytes";
         return mensaje;
     }
+
+    public static boolean mensaje_para_mi(Mensaje mensaje){
+        boolean respuesta = false;
+        if(
+                mensaje.getMacOrigen().equals(ESTE_DISPOSITIVO.miMacAddress) ||
+                mensaje.getMacDestino().equals(ESTE_DISPOSITIVO.miMacAddress) ||
+                ( mensaje.getMacOrigen().equals("") && mensaje.getMacDestino().equals(ESTE_DISPOSITIVO.miMacAddress)) ||
+                ( mensaje.getMacDestino().equals("") &&  mensaje.getMacOrigen().equals(ESTE_DISPOSITIVO.miMacAddress))
+        ) {
+            respuesta = true;
+        }
+        return respuesta;
+    }
 }

@@ -44,6 +44,7 @@ import com.facci.chatinmediato.Entities.Mensaje;
 import com.facci.chatinmediato.NEGOCIO.ESTE_DISPOSITIVO;
 import com.facci.chatinmediato.NEGOCIO.Mensajes;
 import com.facci.chatinmediato.NEGOCIO.OTRO_DISPOSITIVO;
+import com.facci.chatinmediato.NEGOCIO.Validaciones;
 import com.facci.chatinmediato.Receivers.WifiDirectBroadcastReceiver;
 import com.facci.chatinmediato.Servicios.MessageService;
 import com.facci.chatinmediato.util.ActivityUtilities;
@@ -344,15 +345,18 @@ public class ChatActivity extends AppCompatActivity {
         byte[] data = SerializationUtils.serialize(mensaje);
         String peso=obtenerPeso(data.length);
         //mensaje.setTexto(peso);
-        listMensaje.add(mensaje);
-        int conteo=0, posicion=-1;
-        for (Mensaje men_list:listMensaje) {
-            if(men_list.getTiempoEnvio() == mensaje.getTiempoEnvio()) conteo++;
-            posicion++;
+        if(Validaciones.mensaje_para_mi(mensaje)){
+            listMensaje.add(mensaje);
+            int conteo = 0, posicion = -1;
+            for (Mensaje men_list : listMensaje) {
+                if (men_list.getTiempoEnvio() == mensaje.getTiempoEnvio()) conteo++;
+                posicion++;
+            }
+
+            if (conteo > 1) listMensaje.remove(posicion);
+            chatAdapter.notifyDataSetChanged();
+            listView.setSelection(listMensaje.size() - 1);
         }
-        if(conteo>1)listMensaje.remove(posicion);
-        chatAdapter.notifyDataSetChanged();
-        listView.setSelection(listMensaje.size() - 1);
     }
 
     public void saveStateForeground(boolean isForeground) {
