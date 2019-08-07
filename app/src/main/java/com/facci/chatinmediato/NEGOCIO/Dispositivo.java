@@ -3,13 +3,19 @@ package com.facci.chatinmediato.NEGOCIO;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.text.TextUtils;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.facci.chatinmediato.R;
 
 public class Dispositivo {
     public static String getDeviceName() {
@@ -82,6 +88,12 @@ public class Dispositivo {
         }
 
         editor.commit();
+    }
+
+    public static void buildAlertMessageNoGps(final Context context) {
+        Intent myIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(myIntent);
     }
 
 }

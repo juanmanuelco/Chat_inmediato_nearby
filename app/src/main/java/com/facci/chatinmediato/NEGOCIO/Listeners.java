@@ -44,7 +44,7 @@ public class Listeners {
     public OnFailureListener fail = new OnFailureListener() {
         @Override
         public void onFailure(@NonNull Exception e) {
-            Toast.makeText(context, "Fallo"+ e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Fallo "+ e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     };
 

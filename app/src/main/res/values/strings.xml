@@ -13,6 +13,7 @@
     <string name="NO_ENCONT">Tu ya no eres encontrable</string>
     <string name="BUSCANDO_PART">Buscando participantes</string>
     <string name="ENCONTRADOS">Usuarios conectados en la misma red</string>
+    <string name="ACTIVAGPS">Tu GPS está descativado y es necesario para el sistema ¿Desea activarlo?</string>
 
     <string name="encabezado_principal">Bienvenido</string>
     <string name="hing_principal">Esciba un nombre</string>

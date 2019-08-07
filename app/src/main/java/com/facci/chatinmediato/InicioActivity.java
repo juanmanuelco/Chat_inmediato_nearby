@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,6 +61,8 @@ public class InicioActivity extends AppCompatActivity implements OnMapReadyCallb
     private MapView   mMapView;
     GoogleMap         map;
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
+
+
     EditText          editText_Nickname;
     ProgressDialog    pDialog;
     SharedPreferences sharedPref;
@@ -76,12 +79,6 @@ public class InicioActivity extends AppCompatActivity implements OnMapReadyCallb
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if(!wifiManager.isWifiEnabled()) wifiManager.setWifiEnabled(true);
         Dispositivo.requestPermissionFromDevice(this);
-
-        Intent discoverableIntent = new
-                Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 1000);
-        startActivity(discoverableIntent);
-
         context = getApplicationContext();
         nerby_service = new Intent(this, Nerby.class);
         nerby_service.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -3,6 +3,7 @@ package com.facci.chatinmediato.Servicios;
 import android.Manifest;
 import android.app.Service;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,8 +18,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
+import com.facci.chatinmediato.NEGOCIO.Dispositivo;
 import com.facci.chatinmediato.NEGOCIO.ESTE_DISPOSITIVO;
 import com.facci.chatinmediato.R;
 
@@ -28,6 +31,7 @@ public class Ubicacion extends Service {
     LocationManager locationManager;
     SharedPreferences sharedPref;
     Intent            nerby_service;
+    Context context;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -41,6 +45,12 @@ public class Ubicacion extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            Dispositivo.buildAlertMessageNoGps(this);
+        }
+        context = this;
+
         nerby_service = new Intent(this, Nerby.class);
         nerby_service.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -62,6 +72,7 @@ public class Ubicacion extends Service {
         }
         return super.onStartCommand(intent, flags, startId);
     }
+
     private final LocationListener locationListenerGPS = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
@@ -85,6 +96,10 @@ public class Ubicacion extends Service {
         @Override
         public void onProviderDisabled(String s) {
             Toast.makeText(Ubicacion.this, "Proveedor deshabilitado", Toast.LENGTH_SHORT).show();
+            final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+            if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+                Dispositivo.buildAlertMessageNoGps(context);
+            }
         }
     };
 }

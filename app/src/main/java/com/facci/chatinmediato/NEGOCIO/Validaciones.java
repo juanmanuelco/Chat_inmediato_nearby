@@ -116,14 +116,19 @@ public class Validaciones {
 
     public static boolean mensaje_para_mi(Mensaje mensaje){
         boolean respuesta = false;
-        if(
-                mensaje.getMacOrigen().equals(ESTE_DISPOSITIVO.miMacAddress) ||
-                mensaje.getMacDestino().equals(ESTE_DISPOSITIVO.miMacAddress) ||
-                ( mensaje.getMacOrigen().equals("") && mensaje.getMacDestino().equals(ESTE_DISPOSITIVO.miMacAddress)) ||
-                ( mensaje.getMacDestino().equals("") &&  mensaje.getMacOrigen().equals(ESTE_DISPOSITIVO.miMacAddress))
-        ) {
+        boolean mio_origen = mensaje.getMacOrigen().equals(ESTE_DISPOSITIVO.miMacAddress);
+        boolean otro_destino =  mensaje.getMacDestino().equals(OTRO_DISPOSITIVO.MacAddress);
+
+        boolean mio_destino = mensaje.getMacDestino().equals(ESTE_DISPOSITIVO.miMacAddress);
+        boolean otro_origen =  mensaje.getMacOrigen().equals(OTRO_DISPOSITIVO.MacAddress);
+
+        boolean origen_vacio = mensaje.getMacOrigen().equals("");
+        boolean destino_vacio = mensaje.getMacDestino().equals("");
+
+        if((mio_origen && otro_destino) || (mio_destino && otro_origen) || (origen_vacio && mio_destino) || (destino_vacio && mio_origen)){
             respuesta = true;
         }
+
         return respuesta;
     }
 }
