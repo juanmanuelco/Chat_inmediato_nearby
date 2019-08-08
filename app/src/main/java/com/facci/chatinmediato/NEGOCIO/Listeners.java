@@ -44,7 +44,10 @@ public class Listeners {
     public OnFailureListener fail = new OnFailureListener() {
         @Override
         public void onFailure(@NonNull Exception e) {
-            Toast.makeText(context, "Fallo "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+            if(e.getMessage().equals("8001: STATUS_ALREADY_ADVERTISING"))
+                Nearby.getConnectionsClient(context).stopAdvertising();
+            if(e.getMessage().equals("8002: STATUS_ALREADY_DISCOVERING"))
+                Nearby.getConnectionsClient(context).stopDiscovery();
         }
     };
 
@@ -111,7 +114,6 @@ public class Listeners {
 
             try {
                 Mensaje msg = (Mensaje) Validaciones.NearbyDeserialize(payload.asBytes());
-                Toast.makeText(context, "Recepcion de: "+msg.getTexto(), Toast.LENGTH_SHORT).show();
                 db.guardarRegistro(msg);
             } catch (IOException e) {
                 e.printStackTrace();

@@ -39,6 +39,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.nearby.messages.API_KEY"
+            android:value="AIzaSyAVhHxd8NsFdWov6rki75CZYrkwpi1AZWc" />
         <activity android:name=".ChatOffLineActivity" />
         <activity android:name=".WebViewActivity" />
         <activity

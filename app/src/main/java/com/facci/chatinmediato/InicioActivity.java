@@ -43,6 +43,10 @@ import com.facci.chatinmediato.Servicios.Ubicacion;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.nearby.Nearby;
+import com.google.android.gms.nearby.messages.MessagesClient;
+import com.google.android.gms.nearby.messages.MessagesOptions;
+import com.google.android.gms.nearby.messages.NearbyPermissions;
 
 import static com.facci.chatinmediato.NEGOCIO.Dispositivo.GuardarPreferencia;
 import static com.facci.chatinmediato.NEGOCIO.Dispositivo.REQUEST_CODE_REQUIRED_PERMISSIONS;
@@ -97,6 +101,13 @@ public class InicioActivity extends AppCompatActivity implements OnMapReadyCallb
         activity = this;
         db = new DB_SOSCHAT(this);
         ESTE_DISPOSITIVO.db=db;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            MessagesClient mMessagesClient = Nearby.getMessagesClient(this, new MessagesOptions.Builder()
+                    .setPermissions(NearbyPermissions.BLE)
+                    .build());
+        }
+
     }
 
     public void wifi(View v){
