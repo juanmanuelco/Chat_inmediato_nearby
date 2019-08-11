@@ -287,10 +287,11 @@ public class ChatActivity extends AppCompatActivity {
 
     public void enviarDiseminado(Mensaje mensaje){
         mensaje.setIdentificacion(false);
+        mensaje.setDiseminado(true);
         if (mReceiver.isGroupeOwner() == WifiDirectBroadcastReceiver.IS_OWNER)
-            new SendMessageServer(ChatActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mensaje);
+            new SendMessageServer(ChatActivity.this, true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mensaje);
         else if (mReceiver.isGroupeOwner() == WifiDirectBroadcastReceiver.IS_CLIENT)
-            new SendMessageClient(ChatActivity.this, mReceiver.getOwnerAddr()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mensaje);
+            new SendMessageClient(ChatActivity.this, mReceiver.getOwnerAddr(), true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mensaje);
     }
 
     public void sendMessage(int type) {
@@ -335,28 +336,33 @@ public class ChatActivity extends AppCompatActivity {
         }
         db.guardarRegistro(mes);
         if (mReceiver.isGroupeOwner() == WifiDirectBroadcastReceiver.IS_OWNER)
-            new SendMessageServer(ChatActivity.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mes);
+            new SendMessageServer(ChatActivity.this, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mes);
         else if (mReceiver.isGroupeOwner() == WifiDirectBroadcastReceiver.IS_CLIENT)
-            new SendMessageClient(ChatActivity.this, mReceiver.getOwnerAddr()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mes);
+            new SendMessageClient(ChatActivity.this, mReceiver.getOwnerAddr(), false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mes);
         edit.setText("");
     }
 
-    public static void refreshList(Mensaje mensaje) {
+    public static void refreshList(Mensaje mensaje, boolean diseminado) {
         byte[] data = SerializationUtils.serialize(mensaje);
         String peso=obtenerPeso(data.length);
         //mensaje.setTexto(peso);
-        if(Validaciones.mensaje_para_mi(mensaje)){
-            listMensaje.add(mensaje);
-            int conteo = 0, posicion = -1;
-            for (Mensaje men_list : listMensaje) {
-                if (men_list.getTiempoEnvio() == mensaje.getTiempoEnvio()) conteo++;
-                posicion++;
-            }
+        if(Validaciones.mensaje_para_mi(mensaje)) listado_refresh(mensaje);
 
-            if (conteo > 1) listMensaje.remove(posicion);
-            chatAdapter.notifyDataSetChanged();
-            listView.setSelection(listMensaje.size() - 1);
+        if(!diseminado) listado_refresh(mensaje);
+
+    }
+
+    public static void listado_refresh(Mensaje mensaje){
+        listMensaje.add(mensaje);
+        int conteo = 0, posicion = -1;
+        for (Mensaje men_list : listMensaje) {
+            if (men_list.getTiempoEnvio() == mensaje.getTiempoEnvio()) conteo++;
+            posicion++;
         }
+
+        if (conteo > 1) listMensaje.remove(posicion);
+        chatAdapter.notifyDataSetChanged();
+        listView.setSelection(listMensaje.size() - 1);
     }
 
     public void saveStateForeground(boolean isForeground) {

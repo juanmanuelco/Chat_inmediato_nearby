@@ -1,26 +1,43 @@
 package com.facci.chatinmediato;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.facci.chatinmediato.DB.DB_SOSCHAT;
+import com.facci.chatinmediato.Entities.Mensaje;
 import com.facci.chatinmediato.Fragments.FM_encontrados;
 import com.facci.chatinmediato.Fragments.FM_historico;
 import com.facci.chatinmediato.Fragments.FM_mensajes;
 import com.facci.chatinmediato.InitThreads.ServerInit;
+import com.facci.chatinmediato.NEGOCIO.Validaciones;
 import com.facci.chatinmediato.Servicios.Nerby;
+import com.google.android.gms.nearby.Nearby;
+import com.google.android.gms.nearby.messages.Message;
+import com.google.android.gms.nearby.messages.MessageListener;
+import com.google.android.gms.nearby.messages.MessagesClient;
+import com.google.android.gms.nearby.messages.MessagesOptions;
+import com.google.android.gms.nearby.messages.NearbyPermissions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FuncionActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -31,9 +48,15 @@ public class FuncionActivity extends AppCompatActivity {
     public static FloatingActionButton fab;
     Fragment fm= null;
 
+    MessageListener mMessageListener;
+    ArrayList<Message> mMessages;
+    static DB_SOSCHAT db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = new DB_SOSCHAT(this);
+        mMessages = new ArrayList<Message>();
         setContentView(R.layout.activity_funcion);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -65,7 +88,67 @@ public class FuncionActivity extends AppCompatActivity {
                 recreate();
             }
         });
+
+        mMessageListener = new MessageListener() {
+            @Override
+            public void onFound(Message message) {
+                byte[] mensaje= message.getContent();
+                try {
+                    Mensaje msg = (Mensaje) Validaciones.NearbyDeserialize(mensaje);
+                    db.guardarRegistro(msg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onLost(Message message) {
+
+            }
+        };
+
+        List<Mensaje> listado_bloque = db.todos_mensajes();
+        for (final Mensaje mensaje: listado_bloque) {
+            try {
+                byte[] msg = Validaciones.NearbySerialize(mensaje);
+                mMessages.add(new Message(msg));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
+    
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        for (Message mMessage: mMessages ) {
+            MessagesClient mMessagesClient= Nearby.getMessagesClient(this);
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mMessagesClient = Nearby.getMessagesClient(this, new MessagesOptions.Builder()
+                        .setPermissions(NearbyPermissions.BLE)
+                        .build());
+            }
+            mMessagesClient.publish(mMessage);
+        }
+        mMessages.clear();
+        Nearby.getMessagesClient(this).subscribe(mMessageListener);
+    }
+
+    @Override
+    protected void onStop() {
+        for (Message mMessage: mMessages ) {
+            Nearby.getMessagesClient(this).unpublish(mMessage);
+        }
+        Nearby.getMessagesClient(this).unsubscribe(mMessageListener);
+        super.onStop();
+    }
+
+
     public static class PlaceholderFragment extends Fragment {
 
         private static final String ARG_SECTION_NUMBER = "section_number";

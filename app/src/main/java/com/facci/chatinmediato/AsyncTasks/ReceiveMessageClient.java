@@ -24,6 +24,8 @@ public class ReceiveMessageClient extends AbstractReceiver {
 	private ServerSocket socket;
 	DB_SOSCHAT db;
 
+	public boolean seDisemina;
+
 	public ReceiveMessageClient(Context context){
 		mContext = context;
 		this.db = new DB_SOSCHAT(context);
@@ -39,6 +41,8 @@ public class ReceiveMessageClient extends AbstractReceiver {
 				BufferedInputStream buffer = new BufferedInputStream(inputStream);
 				ObjectInputStream objectIS = new ObjectInputStream(buffer);
 				Mensaje mensaje = (Mensaje) objectIS.readObject();
+
+				seDisemina = mensaje.diseminacion();
 
 				if(mensaje.getTiempoRecibo()==0)
 					mensaje.setTiempoRecibo(System.currentTimeMillis());
@@ -81,7 +85,7 @@ public class ReceiveMessageClient extends AbstractReceiver {
 			values[0].saveByteArrayToFile(mContext);
 		}
 		if(isActivityRunning(InicioActivity.class,mContext))
-			ChatActivity.refreshList(values[0]);
+			ChatActivity.refreshList(values[0], seDisemina);
 	}
 
 

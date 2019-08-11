@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.facci.chatinmediato.Cache.CacheView;
 import com.facci.chatinmediato.ChatActivity;
 import com.facci.chatinmediato.Entities.Mensaje;
+import com.facci.chatinmediato.NEGOCIO.ESTE_DISPOSITIVO;
 import com.facci.chatinmediato.NEGOCIO.OTRO_DISPOSITIVO;
 import com.facci.chatinmediato.PlayVideoActivity;
 import com.facci.chatinmediato.R;
@@ -109,7 +110,7 @@ public class ChatAdapter extends BaseAdapter {
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)cache.relativeLayout.getLayoutParams();
         String mensaje=mes.getTexto();
 
-		if(mes.getMacOrigen().equals(getMacAddr())){
+		if(mes.getMacOrigen().equals(getMacAddr()) || mes.getMacOrigen().equals(ESTE_DISPOSITIVO.miMacAddress)){
         	params.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 			cache.relativeLayout.setBackground(view.getResources().getDrawable(R.drawable.chat_bubble_mine));

@@ -10,6 +10,7 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
+import android.net.wifi.p2p.WifiP2pGroup;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.facci.chatinmediato.NEGOCIO.OTRO_DISPOSITIVO;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static com.facci.chatinmediato.NEGOCIO.Mensajes.cargando;
@@ -132,13 +134,14 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
                                 @Override
                                 public void onClick(View v) {
                                     final WifiP2pDevice device = deviceArray[RV.getChildAdapterPosition(v)];
+
                                     WifiP2pConfig config =  new WifiP2pConfig();
                                     config.deviceAddress=device.deviceAddress;
                                     OTRO_DISPOSITIVO.MacAddress=device.deviceAddress;
                                     mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
                                         @Override
                                         public void onSuccess() {
-                                            Toast.makeText(context, "Conectando con: "+ device.deviceAddress, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, "Conectando con: "+ device.deviceName, Toast.LENGTH_SHORT).show();
                                         }
                                         @Override
                                         public void onFailure(int reason) {
@@ -173,6 +176,20 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
                             fm.server=new ServerInit();
                             fm.server.start();
                             FuncionActivity.server=fm.server;
+                            mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
+                                @Override
+                                public void onGroupInfoAvailable(WifiP2pGroup group) {
+                                    Collection<WifiP2pDevice> clientes = group.getClientList();
+                                    ArrayList<WifiP2pDevice> lista_cliente = new ArrayList<>();
+                                    for (WifiP2pDevice cliente : clientes ) {
+                                        lista_cliente.add(cliente);
+                                    }
+                                    if(lista_cliente.size() >0){
+                                        OTRO_DISPOSITIVO.MacAddress = lista_cliente.get(0).deviceAddress;
+                                        OTRO_DISPOSITIVO.MacOnclic = lista_cliente.get(0).deviceAddress;
+                                    }
+                                }
+                            });
                         }
                         else if (info.groupFormed) {
                             isGroupeOwner = IS_CLIENT;

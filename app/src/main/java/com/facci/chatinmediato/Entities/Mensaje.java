@@ -38,6 +38,7 @@ public class Mensaje implements Serializable{
 	private long latitud =0;
 	private long longitud =0;
 	private String emergente ;
+	private boolean diseminado= false;
 
 	/**Obtener elementos del sistema*/
 	public int getTipo(){return mType;}
@@ -56,6 +57,7 @@ public class Mensaje implements Serializable{
 	public long getLatitud(){return latitud;}
 	public long getLongitud(){return longitud;}
 	public String getEmergente() { return emergente; }
+	public boolean diseminacion(){return diseminado;}
 
 
 	/**Sitiar elemtos del sistema*/
@@ -75,6 +77,7 @@ public class Mensaje implements Serializable{
     public void setLatitud(long latitud){this.latitud = latitud;}
     public void setLongitud(long longitud){this.longitud = longitud;}
 	public void setEmergente(String emergente) { this.emergente = emergente; }
+	public void setDiseminado(boolean dise){this.diseminado =dise;}
 
 
 

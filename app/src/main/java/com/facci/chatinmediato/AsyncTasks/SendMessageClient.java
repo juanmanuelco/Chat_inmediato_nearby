@@ -21,10 +21,12 @@ public class SendMessageClient extends AsyncTask<Mensaje, Mensaje, Mensaje>{
 	private Context mContext;
 	private static final int SERVER_PORT = 4445;
 	private InetAddress mServerAddr;
+	private boolean diseminado;
 	
-	public SendMessageClient(Context context, InetAddress serverAddr){
+	public SendMessageClient(Context context, InetAddress serverAddr, boolean diseminado){
 		mContext = context;
 		mServerAddr = serverAddr;
+		this.diseminado = diseminado;
 	}
 	
 	@Override
@@ -62,7 +64,7 @@ public class SendMessageClient extends AsyncTask<Mensaje, Mensaje, Mensaje>{
 		super.onProgressUpdate(msg);
 		
 		if(isActivityRunning(InicioActivity.class, mContext))
-			ChatActivity.refreshList(msg[0]);
+			ChatActivity.refreshList(msg[0], diseminado);
 	}
 
 	@Override

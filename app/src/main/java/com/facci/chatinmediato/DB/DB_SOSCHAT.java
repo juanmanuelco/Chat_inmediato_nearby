@@ -22,7 +22,7 @@ import static com.facci.chatinmediato.NEGOCIO.Mensajes.getMacAddr;
 
 public class DB_SOSCHAT extends SQLiteOpenHelper {
 
-    public static final String DB_NOMBRE = "DB_SOSCHAT_V5.db";
+    public static final String DB_NOMBRE = "DB_SOSCHAT.db";
     Context ct;
     public DB_SOSCHAT(Context context) {
         super(context, DB_NOMBRE, null, 1);
@@ -34,7 +34,6 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TB_mensajes.CrearTablaMensaje());
         db.execSQL(TB_usuarios.CrearTablaUsuario());
-        db.execSQL(String.format("INSERT INTO USUARIOS VALUES ( NULL,'3d:12:12:12:12','Dispositivo1', 'true')"));
     }
 
     @Override

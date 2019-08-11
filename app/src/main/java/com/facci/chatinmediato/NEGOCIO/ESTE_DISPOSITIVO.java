@@ -14,8 +14,8 @@ public class ESTE_DISPOSITIVO {
     public static double longitud=0;
     public static double latitud=0;
 
-    public static String miNickName;
-    public static String miMacAddress;
+    public static String miNickName="";
+    public static String miMacAddress="";
 
     public static Context context;
 

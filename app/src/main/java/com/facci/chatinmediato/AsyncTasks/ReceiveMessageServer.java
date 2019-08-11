@@ -22,6 +22,8 @@ public class ReceiveMessageServer extends AbstractReceiver {
 	private ServerSocket serverSocket;
 	DB_SOSCHAT db;
 
+	public boolean seDisemina;
+
 
 	public ReceiveMessageServer(Context context){
 		mContext = context;
@@ -40,6 +42,8 @@ public class ReceiveMessageServer extends AbstractReceiver {
 				Mensaje mensaje = (Mensaje) objectIS.readObject();
 				InetAddress senderAddr = clientSocket.getInetAddress();
 				mensaje.setAddress(senderAddr.toString());
+
+				seDisemina = mensaje.diseminacion();
 
 				if(mensaje.getTiempoRecibo()==0)
 					mensaje.setTiempoRecibo(System.currentTimeMillis());
@@ -82,7 +86,7 @@ public class ReceiveMessageServer extends AbstractReceiver {
 			values[0].saveByteArrayToFile(mContext);
 		}
 		
-		new SendMessageServer(mContext).executeOnExecutor(THREAD_POOL_EXECUTOR, values);
+		new SendMessageServer(mContext, seDisemina).executeOnExecutor(THREAD_POOL_EXECUTOR, values);
 	}
 	
 }

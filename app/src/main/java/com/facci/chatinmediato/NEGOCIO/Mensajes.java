@@ -85,7 +85,12 @@ public class Mensajes {
 
                 StringBuilder res1 = new StringBuilder();
                 for (byte b : macBytes) {
-                    res1.append(Integer.toHexString(b & 0xFF) + ":");
+                    String deter = Integer.toHexString(b & 0xFF);
+                    if(deter.length() ==1 ){
+                        deter = "0" +deter;
+                    }
+                    deter += ":";
+                    res1.append(deter);
                 }
 
                 if (res1.length() > 0) {

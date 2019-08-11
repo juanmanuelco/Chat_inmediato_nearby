@@ -24,9 +24,11 @@ public class SendMessageServer extends AsyncTask<Mensaje, Mensaje, Mensaje>{
 	private Context mContext;
 	private static final int SERVER_PORT = 4446;
 	private boolean isMine;
+	private boolean diseminado;
 
-	public SendMessageServer(Context context){
+	public SendMessageServer(Context context, boolean diseminado){
 		mContext = context;
+		this.diseminado = diseminado;
 	}
 	
 	@Override
@@ -55,7 +57,7 @@ public class SendMessageServer extends AsyncTask<Mensaje, Mensaje, Mensaje>{
 	protected void onProgressUpdate(Mensaje... values) {
 		super.onProgressUpdate(values);
 		if(isActivityRunning(InicioActivity.class, mContext))
-			ChatActivity.refreshList(values[0]);
+			ChatActivity.refreshList(values[0], diseminado);
 	}
 
 	@Override

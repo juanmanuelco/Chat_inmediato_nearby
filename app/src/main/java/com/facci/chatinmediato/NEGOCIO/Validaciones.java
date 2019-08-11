@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.facci.chatinmediato.Entities.Mensaje;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -114,21 +116,42 @@ public class Validaciones {
         return mensaje;
     }
 
+
+
     public static boolean mensaje_para_mi(Mensaje mensaje){
         boolean respuesta = false;
-        boolean mio_origen = mensaje.getMacOrigen().equals(ESTE_DISPOSITIVO.miMacAddress);
-        boolean otro_destino =  mensaje.getMacDestino().equals(OTRO_DISPOSITIVO.MacAddress);
+        String mc_destino_fuera=OTRO_DISPOSITIVO.MacAddress;
+        String mc_destino_msg=mensaje.getMacDestino();
 
-        boolean mio_destino = mensaje.getMacDestino().equals(ESTE_DISPOSITIVO.miMacAddress);
-        boolean otro_origen =  mensaje.getMacOrigen().equals(OTRO_DISPOSITIVO.MacAddress);
+        String mc_origen_dentro =ESTE_DISPOSITIVO.miMacAddress;
+        String mc_origen_msg =mensaje.getMacOrigen();
 
-        boolean origen_vacio = mensaje.getMacOrigen().equals("");
-        boolean destino_vacio = mensaje.getMacDestino().equals("");
+        boolean mio_origen = comparar_mac(mc_origen_dentro, mc_origen_msg ); //Este dispositivo origina el mensaje
+        boolean otro_destino = comparar_mac(mc_destino_fuera, mc_destino_msg); //Otro dispositivo es el destino del mensaje
 
-        if((mio_origen && otro_destino) || (mio_destino && otro_origen) || (origen_vacio && mio_destino) || (destino_vacio && mio_origen)){
+        boolean mio_destino = comparar_mac(mc_origen_dentro , mc_destino_msg ); //Este dispositivo es el destinatario
+        boolean otro_origen = comparar_mac(mc_destino_fuera, mc_origen_msg ) ; // Otro dispositivo es el origen
+
+        if((mio_origen && otro_destino ) || (mio_destino && otro_origen )){
             respuesta = true;
         }
+        return  respuesta;
+    }
 
-        return respuesta;
+    public static boolean comparar_mac(String mac_dispositivo, String mac_mensaje){
+        if(mac_dispositivo.length() ==0 || mac_mensaje.length() == 0) return true;
+        int limite_permitido=0;
+        mac_dispositivo= mac_dispositivo.toLowerCase();
+        mac_mensaje = mac_mensaje.toLowerCase();
+
+        for (int i=0 ; i < mac_dispositivo.length(); i++){
+            char caracter_dispo = mac_dispositivo.charAt(i);
+            char caracter_msg = mac_mensaje.charAt(i);
+            if(caracter_dispo != caracter_msg ){
+                limite_permitido++;
+            }
+        }
+        if(limite_permitido <5) return  true;
+        else return  false;
     }
 }

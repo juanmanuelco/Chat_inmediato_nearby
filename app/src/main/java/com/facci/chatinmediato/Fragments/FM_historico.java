@@ -70,6 +70,7 @@ public class FM_historico extends Fragment {
             @Override
             public void onClick(View v) {
                 OTRO_DISPOSITIVO.MacOnclic= encontrados.get(rv_participants.getChildAdapterPosition(v))[1];
+                OTRO_DISPOSITIVO.MacAddress= OTRO_DISPOSITIVO.MacOnclic;
                 OTRO_DISPOSITIVO.nombreOffline= encontrados.get(rv_participants.getChildAdapterPosition(v))[0];
                 Intent intent = new Intent(getActivity().getApplicationContext(), ChatOffLineActivity.class);
                 getActivity().startActivity(intent);
