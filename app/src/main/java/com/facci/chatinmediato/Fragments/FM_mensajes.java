@@ -68,7 +68,7 @@ public class FM_mensajes extends Fragment {
         adaptadorMensajes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OTRO_DISPOSITIVO.MacOnclic= mensajes.get(rv_participants.getChildAdapterPosition(v))[1];
+                db.RetornarMacMensaje(mensajes.get(rv_participants.getChildAdapterPosition(v))[1],mensajes.get(rv_participants.getChildAdapterPosition(v))[0]);
                 Intent intent = new Intent(getActivity().getApplicationContext(), ChatOffLineActivity.class);
                 getActivity().startActivity(intent);
             }

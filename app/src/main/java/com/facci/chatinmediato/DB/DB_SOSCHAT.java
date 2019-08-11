@@ -7,12 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.facci.chatinmediato.DB.Tablas.TB_mensajes;
 import com.facci.chatinmediato.DB.Tablas.TB_usuarios;
 import com.facci.chatinmediato.Entities.Mensaje;
 import com.facci.chatinmediato.Entities.Usuario;
+import com.facci.chatinmediato.NEGOCIO.OTRO_DISPOSITIVO;
 import com.facci.chatinmediato.R;
 
 import java.util.ArrayList;
@@ -34,6 +34,7 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TB_mensajes.CrearTablaMensaje());
         db.execSQL(TB_usuarios.CrearTablaUsuario());
+        db.execSQL(String.format("INSERT INTO USUARIOS VALUES ( NULL,'3d:12:12:12:12','Dispositivo1', 'true')"));
     }
 
     @Override
@@ -71,10 +72,12 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
     }
 
     public List<Mensaje> Mensajes_filtro(String mac_origen, String mac_destino){
-        Log.i("Macs","Origen: "+mac_origen+" Destino: "+mac_destino);
+        String mac_destino_recortada = mac_destino.substring(3);
+        String mac_origen_recortada = mac_origen.substring(3);
+        Log.i("Macs","Origen: "+mac_origen_recortada+" Destino: "+mac_destino_recortada);
         List<Mensaje> respuesta = new ArrayList<Mensaje>();
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(String.format("select * from MENSAJES_SOSCHAT where (MAC_ORIGEN='"+mac_origen+"' AND MAC_DESTINO='"+mac_destino+"')OR(MAC_DESTINO='"+mac_origen+"' AND MAC_ORIGEN='"+mac_destino+"')"), null);
+        Cursor cursor= db.rawQuery("select * from MENSAJES_SOSCHAT where (MAC_ORIGEN like '%"+mac_origen_recortada+"' AND MAC_DESTINO like '%"+mac_destino_recortada+"')OR(MAC_DESTINO like '%"+mac_origen_recortada+"' AND MAC_ORIGEN like '%"+mac_destino_recortada+"')",null);
         return TB_mensajes.todos(cursor);
     }
 
@@ -140,20 +143,39 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
     public ArrayList<String[]> mensajesRecibidos(){
         SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<String[]> respuesta= new ArrayList<>();
+        String mac_recortada;
+        String mac = getMacAddr();
+        mac_recortada = "%"+mac.substring(3);
         Cursor obtenidos =db.rawQuery(String.format(
-                "SELECT * FROM %s WHERE (%s IN (SELECT MAX (%s) FROM %s GROUP BY %s ) ) AND (%s = '%s') ORDER BY %s DESC",
+                "SELECT * FROM %s WHERE (%s IN (SELECT MAX (%s) FROM %s GROUP BY %s ) ) AND (%s like '%s') ORDER BY %s DESC",
                 TB_mensajes.nombre,
                 TB_mensajes.tiempoEnvio,
                 TB_mensajes.tiempoEnvio,
                 TB_mensajes.nombre,
                 TB_mensajes.macOrigen,
                 TB_mensajes.macDestino,
-                getMacAddr(),
+                mac_recortada,
                 TB_mensajes.tiempoEnvio), null);
         while (obtenidos.moveToNext()){
-            respuesta.add(new String[]{ obtenidos.getString(3),obtenidos.getString(2), obtenidos.getLong(11)+""});
+            respuesta.add(new String[]{ obtenidos.getString(3),obtenidos.getString(2), obtenidos.getLong(11)+"",});
         }
         return respuesta;
+    }
+
+    public void RetornarMacMensaje(String Texto, String Nombre){
+        Log.i("RetornarMac",Texto +" "+Nombre);
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String[]> respuesta= new ArrayList<>();
+        Cursor cursor = db.rawQuery(String.format("select MAC_ORIGEN, MAC_DESTINO from MENSAJES_SOSCHAT where TEXTO='"+Texto+"' AND CHATNAME='"+Nombre+"'"),null);
+        while (cursor.moveToNext()){
+            if (!getMacAddr().equals(cursor.getString(0))){
+                OTRO_DISPOSITIVO.MacOnclic= cursor.getString(0);
+                Log.i("Retorno",OTRO_DISPOSITIVO.MacOnclic);
+            }else if (!getMacAddr().equals(cursor.getString(1))){
+                OTRO_DISPOSITIVO.MacOnclic= cursor.getString(1);
+                Log.i("Retorno",OTRO_DISPOSITIVO.MacOnclic);
+            }
+        }
     }
 
     public ArrayList<String> buscador_mensaje(){
