@@ -113,7 +113,9 @@ public class FuncionActivity extends AppCompatActivity {
         for (final Mensaje mensaje: listado_bloque) {
             try {
                 byte[] msg = Validaciones.NearbySerialize(mensaje);
-                mMessages.add(new Message(msg));
+                if (msg.length<102400){
+                    mMessages.add(new Message(msg));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

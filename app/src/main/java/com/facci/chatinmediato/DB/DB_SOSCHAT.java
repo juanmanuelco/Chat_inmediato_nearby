@@ -1,5 +1,6 @@
 package com.facci.chatinmediato.DB;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -46,10 +47,30 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
 
     public void guardarRegistro(Object obj) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "";
-        if (obj.getClass() == Mensaje.class) query = TB_mensajes.Guardar((Mensaje) obj,ct);
-        if (obj.getClass() == Usuario.class) query = TB_usuarios.Guardar((Usuario) obj);
-        if(!query.equals("0")){db.execSQL(query); }
+        //String query = "";
+        ContentValues cv = new ContentValues();
+        /*if (obj.getClass() == Mensaje.class) query = TB_mensajes.Guardar((Mensaje) obj,ct);*/
+        if (obj.getClass() == Mensaje.class){
+            if(validarRegistro((Mensaje) obj)){
+                cv.put(TB_mensajes.tipo, ((Mensaje) obj).getTipo());
+                cv.put(TB_mensajes.texto,   ((Mensaje) obj).getTexto());
+                cv.put(TB_mensajes.chatname,((Mensaje) obj).getChatName());
+                cv.put(TB_mensajes.byteArray, ((Mensaje) obj).getByteArray());
+                cv.put(TB_mensajes.direccion,   ((Mensaje) obj).getAddress());
+                cv.put(TB_mensajes.nombreArchivo,   ((Mensaje) obj).getNombreArchivo());
+                cv.put(TB_mensajes.tamanoArchivo,   ((Mensaje) obj).getTamanoArchivo());
+                cv.put(TB_mensajes.pathArchivo,   ((Mensaje) obj).getPathArchivo());
+                cv.put(TB_mensajes.macOrigen,   ((Mensaje) obj).getMacOrigen());
+                cv.put(TB_mensajes.macDestino,   ((Mensaje) obj).getMacDestino());
+                cv.put(TB_mensajes.tiempoEnvio,   ((Mensaje) obj).getTiempoEnvio());
+                cv.put(TB_mensajes.tiempoRecibo,   ((Mensaje) obj).getTiempoRecibo());
+                cv.put(TB_mensajes.latitud,   ((Mensaje) obj).getLatitud());
+                cv.put(TB_mensajes.longitud,   ((Mensaje) obj).getLongitud());
+                db.insert(TB_mensajes.nombre,null,cv);
+            }
+        }
+        //if (obj.getClass() == Usuario.class) query = TB_usuarios.Guardar((Usuario) obj);
+        //if(!query.equals("0")){db.execSQL(query); }
     }
 
     public Boolean validarRegistro(Mensaje mes) {
