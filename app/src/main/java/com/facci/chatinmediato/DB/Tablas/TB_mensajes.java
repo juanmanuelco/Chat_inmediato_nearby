@@ -34,6 +34,7 @@ public class TB_mensajes {
     public static String TIEMPO_RECIBO  = " TIEMPO_RECIBO NUMERIC";
     public static String LATITUD        = " LATITUD NUMERIC";
     public static String LONGITUD       = " LONGITUD NUMERIC";
+    public static String EMERGENCIA     = " EMERGENCIA TEXT";
 
 
     public static final String nombre   = " MENSAJES_SOSCHAT ";
@@ -52,11 +53,12 @@ public class TB_mensajes {
     public static String tiempoRecibo   = " TIEMPO_RECIBO ";
     public static String latitud        = " LATITUD ";
     public static String longitud       = " LONGITUD ";
+    public static String emergente       = " EMERGENCIA ";
 
     public static String CrearTablaMensaje(){
-        return String.format("CREATE TABLE %s ("+Formateados(15)+")",
+        return String.format("CREATE TABLE %s ("+Formateados(16)+")",
                 NOMBRE, ID, TIPO, TEXTO, CHATNAME, BYTEARRAY, DIRECCION, NOMBRE_ARCHIVO,
-                TAMANO_ARCHIVO, PATH_ARCHIVO, MAC_ORIGEN, MAC_DESTINO, TIEMPO_ENVIO, TIEMPO_RECIBO, LATITUD, LONGITUD);
+                TAMANO_ARCHIVO, PATH_ARCHIVO, MAC_ORIGEN, MAC_DESTINO, TIEMPO_ENVIO, TIEMPO_RECIBO, LATITUD, LONGITUD, EMERGENCIA);
     }
     public static String EliminarTabla(){
         return String.format("DROP TABLE IF EXISTS %s",NOMBRE);
@@ -65,7 +67,7 @@ public class TB_mensajes {
     public static String Guardar(Mensaje m, Context context){
         db = new DB_SOSCHAT(context);
         if(db.validarRegistro(m)){
-            return String.format("INSERT INTO %s VALUES (NULL, "+FormateadosR(14)+")",
+            return String.format("INSERT INTO %s VALUES (NULL, "+FormateadosR(15)+")",
                     NOMBRE,
                     m.getTipo(),
                     m.getTexto(),
@@ -80,7 +82,8 @@ public class TB_mensajes {
                     m.getTiempoEnvio(),
                     m.getTiempoRecibo(),
                     m.getLatitud(),
-                    m.getLongitud()
+                    m.getLongitud(),
+                    m.getEmergente()
             );
         }
         else{
