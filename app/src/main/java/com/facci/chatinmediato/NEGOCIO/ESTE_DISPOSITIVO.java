@@ -71,7 +71,6 @@ public class ESTE_DISPOSITIVO {
                         map.addMarker(new MarkerOptions().position(
                                 new LatLng(mensaje.getLatitud(), mensaje.getLongitud())
                         ).title("Mensaje No: " + numero));
-                        Toast.makeText(context,mensaje.getLatitud() +"---" +mensaje.getLongitud(), Toast.LENGTH_SHORT).show();
                     }
                     numero++;
                 }

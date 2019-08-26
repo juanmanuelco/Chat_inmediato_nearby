@@ -66,6 +66,7 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
                 cv.put(TB_mensajes.tiempoRecibo,   ((Mensaje) obj).getTiempoRecibo());
                 cv.put(TB_mensajes.latitud,   ((Mensaje) obj).getLatitud());
                 cv.put(TB_mensajes.longitud,   ((Mensaje) obj).getLongitud());
+                cv.put(TB_mensajes.emergente,   ((Mensaje) obj).getEmergente());
                 db.insert(TB_mensajes.nombre,null,cv);
             }
         }

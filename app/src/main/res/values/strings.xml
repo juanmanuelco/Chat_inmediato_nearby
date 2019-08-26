@@ -159,5 +159,10 @@
 
     <string name="SERV_INI">Servicio iniciado</string>
     <string name="SERV_STOP">Servicio detenido</string>
+
     <string name="title_activity_ver_mapa">Map</string>
+
+
+    <string name="MESSAGE_EMERGENCY_SEND">Mensaje de emergencia enviado </string>
+
 </resources>

@@ -65,7 +65,6 @@ public class VerMapaActivity extends FragmentActivity implements OnMapReadyCallb
                     map.addMarker(new MarkerOptions().position(
                             new LatLng(mensaje.getLatitud(), mensaje.getLongitud())
                     ).title("Mensaje No: " + numero));
-                    Toast.makeText(this,mensaje.getLatitud() +"---" +mensaje.getLongitud(), Toast.LENGTH_SHORT).show();
 
                     opciones.add(new LatLng(mensaje.getLatitud(), mensaje.getLongitud())).width(5).color(Color.RED);
 

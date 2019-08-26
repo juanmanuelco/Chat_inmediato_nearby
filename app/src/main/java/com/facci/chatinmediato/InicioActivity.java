@@ -320,9 +320,9 @@ public class InicioActivity extends AppCompatActivity implements OnMapReadyCallb
                 mes.setMacOrigen(getMacAddr());
                 mes.setMacDestino(OTRO_DISPOSITIVO.MacAddress);
                 mes.setEmergente("true");
-
                 db.guardarRegistro(mes);
-
+                Toast.makeText(InicioActivity.this, R.string.MESSAGE_EMERGENCY_SEND, Toast.LENGTH_SHORT).show();
+                popupWindow.dismiss();
             }
         });
     }
