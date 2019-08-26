@@ -1,13 +1,15 @@
 package com.facci.chatinmediato.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -15,12 +17,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facci.chatinmediato.DB.DB_SOSCHAT;
+import com.facci.chatinmediato.NEGOCIO.OTRO_DISPOSITIVO;
 import com.facci.chatinmediato.R;
+import com.facci.chatinmediato.VerMapaActivity;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
-import static jade.tools.sniffer.Agent.i;
+
 
 public class AdaptadorDispositivos extends RecyclerView.Adapter<AdaptadorDispositivos.ViewHolderDatos> implements View.OnClickListener, Filterable {
 
@@ -30,7 +36,10 @@ public class AdaptadorDispositivos extends RecyclerView.Adapter<AdaptadorDisposi
     Context context;
     DB_SOSCHAT db;
     View view;
-
+    Bundle bund;
+    private MapView   mMapView;
+    GoogleMap map;
+    private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
     private View.OnClickListener listener;
 
@@ -38,6 +47,7 @@ public class AdaptadorDispositivos extends RecyclerView.Adapter<AdaptadorDisposi
         this.listado = listado;
         this.primerListado = listado;
         this.context=c;
+        //this.bund = bn;
         getFilter();
     }
 
@@ -72,6 +82,15 @@ public class AdaptadorDispositivos extends RecyclerView.Adapter<AdaptadorDisposi
                     Snackbar.make(view, context.getString(respuesta), Snackbar.LENGTH_SHORT).show();
                 }
             });
+            viewHolderDatos.btn_mapa.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    OTRO_DISPOSITIVO.MacAddress = listado.get(i)[1];
+                    Intent verMapa = new Intent(context, VerMapaActivity.class);
+                    context.startActivity(verMapa);
+                }
+            });
         }catch (Exception e){
 
         }
@@ -104,12 +123,14 @@ public class AdaptadorDispositivos extends RecyclerView.Adapter<AdaptadorDisposi
     public class ViewHolderDatos extends RecyclerView.ViewHolder {
         TextView txtNombre, txtMAC;
         Switch sw_agregado;
+        ImageButton btn_mapa;
 
         public ViewHolderDatos(@NonNull View itemView) {
             super(itemView);
             txtNombre = itemView.findViewById(R.id.name_tv);
             txtMAC = itemView.findViewById(R.id.ip_tv);
             sw_agregado =(Switch) itemView.findViewById(R.id.sw_agregado);
+            btn_mapa = (ImageButton) itemView.findViewById(R.id.img_btn_mapa);
         }
     }
 

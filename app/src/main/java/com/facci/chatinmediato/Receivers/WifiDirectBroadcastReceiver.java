@@ -13,6 +13,7 @@ import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pGroup;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
     public ArrayList<String> listado2;
     WifiP2pDevice[] deviceArray;
     FM_encontrados fm;
+    Bundle bun;
 
     RecyclerView RV;
     ProgressDialog pDialog;
@@ -82,6 +84,7 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
     public void setFragment(FM_encontrados FM){ this.fm= FM;}
     public void setRecycler(RecyclerView  recycler){ this.RV=recycler;}
     public void setDialogo(ProgressDialog dialogo){this.pDialog=dialogo;}
+    public void setBun(Bundle bun){this.bun = bun;}
 
     @Override
     public void onReceive(final Context context, Intent intent) {

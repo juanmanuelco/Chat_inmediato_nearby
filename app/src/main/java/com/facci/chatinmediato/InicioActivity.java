@@ -77,6 +77,7 @@ public class InicioActivity extends AppCompatActivity implements OnMapReadyCallb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ESTE_DISPOSITIVO.ubicacion= false;
         ESTE_DISPOSITIVO.context = this;
         setContentView(R.layout.activity_inicio);
         view_popup=findViewById(R.id.InicioActivityLayout);

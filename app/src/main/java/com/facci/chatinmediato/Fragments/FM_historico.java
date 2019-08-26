@@ -42,6 +42,7 @@ public class FM_historico extends Fragment {
     ArrayList<String> searches;
     DB_SOSCHAT db;
     TextView Sin_historicos;
+    Bundle bun;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +50,7 @@ public class FM_historico extends Fragment {
         View v= inflater.inflate(R.layout.fragment_fm_historico, container, false);
         setHasOptionsMenu(true);
         // ---------------------------------------------------------------------------
+        bun = savedInstanceState;
         db= new DB_SOSCHAT(getActivity());
         encontrados= new ArrayList<>();
         searches = new ArrayList<>();
@@ -72,10 +74,13 @@ public class FM_historico extends Fragment {
                 OTRO_DISPOSITIVO.MacOnclic= encontrados.get(rv_participants.getChildAdapterPosition(v))[1];
                 OTRO_DISPOSITIVO.MacAddress= OTRO_DISPOSITIVO.MacOnclic;
                 OTRO_DISPOSITIVO.nombreOffline= encontrados.get(rv_participants.getChildAdapterPosition(v))[0];
+
                 Intent intent = new Intent(getActivity().getApplicationContext(), ChatOffLineActivity.class);
                 getActivity().startActivity(intent);
             }
         });
+
+
         rv_participants.setAdapter(adaptadorDispositivos);
         return v;
     }

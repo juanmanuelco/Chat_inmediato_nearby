@@ -35,8 +35,8 @@ public class Mensaje implements Serializable{
 	private long tiempoEnvio=0;
 	private long tiempoRecibo=0;
 	private boolean identificacion=true;
-	private long latitud =0;
-	private long longitud =0;
+	private double latitud =0;
+	private double longitud =0;
 	private String emergente ;
 	private boolean diseminado= false;
 
@@ -54,8 +54,8 @@ public class Mensaje implements Serializable{
 	public long getTiempoRecibo(){return tiempoRecibo;}
 	public String getAddress(){return senderAddress;}
 	public Boolean getIdentificacion(){return identificacion;}
-	public long getLatitud(){return latitud;}
-	public long getLongitud(){return longitud;}
+	public double getLatitud(){return latitud;}
+	public double getLongitud(){return longitud;}
 	public String getEmergente() { return emergente; }
 	public boolean diseminacion(){return diseminado;}
 
@@ -74,8 +74,8 @@ public class Mensaje implements Serializable{
 	public void setByteArray(byte[] byteArray){this.byteArray=byteArray;}
 	public void setAddress(String direccion){this.senderAddress=direccion;}
     public void setIdentificacion(Boolean identificacion){this.identificacion=identificacion;}
-    public void setLatitud(long latitud){this.latitud = latitud;}
-    public void setLongitud(long longitud){this.longitud = longitud;}
+    public void setLatitud(double latitud){this.latitud = latitud;}
+    public void setLongitud(double longitud){this.longitud = longitud;}
 	public void setEmergente(String emergente) { this.emergente = emergente; }
 	public void setDiseminado(boolean dise){this.diseminado =dise;}
 

@@ -2,6 +2,7 @@ package com.facci.chatinmediato.DB.Tablas;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.widget.Toast;
 
 import com.facci.chatinmediato.DB.DB_SOSCHAT;
 import com.facci.chatinmediato.Entities.Mensaje;
@@ -32,8 +33,8 @@ public class TB_mensajes {
     public static String MAC_DESTINO    = " MAC_DESTINO TEXT";
     public static String TIEMPO_ENVIO   = " TIEMPO_ENVIO NUMERIC";
     public static String TIEMPO_RECIBO  = " TIEMPO_RECIBO NUMERIC";
-    public static String LATITUD        = " LATITUD NUMERIC";
-    public static String LONGITUD       = " LONGITUD NUMERIC";
+    public static String LATITUD        = " LATITUD REAL";
+    public static String LONGITUD       = " LONGITUD REAL";
 
 
     public static final String nombre   = " MENSAJES_SOSCHAT ";
@@ -113,11 +114,17 @@ public class TB_mensajes {
             mensaje.setMacOrigen(obtenidos.getString(9));
             mensaje.setMacDestino(obtenidos.getString(10));
             mensaje.setTiempoEnvio(obtenidos.getLong(11));
+
             mensaje.setTiempoRecibo(obtenidos.getLong(12));
-            mensaje.setLatitud(obtenidos.getLong(13));
-            mensaje.setLongitud(obtenidos.getLong(13));
+            mensaje.setLatitud(obtenidos.getDouble(13));
+            mensaje.setLongitud(obtenidos.getDouble(14));
             respuesta.add(mensaje);
         }
         return  respuesta;
+    }
+
+    public static List<Mensaje> mensajesMac(String filtro, Context context){
+        db = new DB_SOSCHAT(context);
+        return  db.todos_mensajesMac(filtro);
     }
 }

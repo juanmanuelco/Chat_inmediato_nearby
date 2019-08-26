@@ -297,6 +297,10 @@ public class ChatActivity extends AppCompatActivity {
     public void sendMessage(int type) {
         long millis = System.currentTimeMillis();
         Mensaje mes = new Mensaje(type, edit.getText().toString(), null, ESTE_DISPOSITIVO.miNickName);
+        Toast.makeText(this, ESTE_DISPOSITIVO.latitud+"---"+ESTE_DISPOSITIVO.longitud, Toast.LENGTH_SHORT).show();
+
+        mes.setLongitud(ESTE_DISPOSITIVO.longitud);
+        mes.setLatitud(ESTE_DISPOSITIVO.latitud);
         mes.setTiempoEnvio(Math.abs(millis));
         mes.setIdentificacion(true);
         mes.setMacOrigen(getMacAddr());

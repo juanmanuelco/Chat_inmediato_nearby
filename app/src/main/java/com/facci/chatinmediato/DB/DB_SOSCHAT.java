@@ -91,6 +91,12 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM MENSAJES_SOSCHAT", null);
         return TB_mensajes.todos(cursor);
     }
+    public List<Mensaje> todos_mensajesMac(String filtro){
+        List<Mensaje> respuesta = new ArrayList<Mensaje>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM MENSAJES_SOSCHAT", null);
+        return TB_mensajes.todos(cursor);
+    }
 
     public List<Mensaje> Mensajes_filtro(String mac_origen, String mac_destino){
         String mac_destino_recortada = mac_destino.substring(3);
