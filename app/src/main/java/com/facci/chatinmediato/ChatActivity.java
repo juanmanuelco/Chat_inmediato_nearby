@@ -419,6 +419,7 @@ public class ChatActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         listMensaje.clear();
+                        db.eliminarMensajes();
                         chatAdapter.notifyDataSetChanged();
                         mostrarMensaje("Listo", "Registro vaciado", ChatActivity.this);
                     }

@@ -118,7 +118,7 @@ public class FM_encontrados extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+/*
     @Override
     public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_fragments, menu);
@@ -144,7 +144,7 @@ public class FM_encontrados extends Fragment {
             searchView.setOnQueryTextListener(queryTextListener);
         }
         super.onCreateOptionsMenu(menu, inflater);
-    }
+    }*/
 
     public void descubrir(){
         int numberOfParams = 3;

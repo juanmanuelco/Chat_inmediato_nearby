@@ -56,6 +56,8 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
 
     public ArrayList <String[]> listado;
     public ArrayList<String> listado2;
+
+    private String nombre;
     WifiP2pDevice[] deviceArray;
     FM_encontrados fm;
     Bundle bun;
@@ -122,11 +124,13 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver{
                                 MacAddress.setCharAt(0,MacCalculo.charAt(0));
                                 MacAddress.setCharAt(1,MacCalculo.charAt(1));
 
-
-                                listado.add(new String[]{device.deviceName, MacAddress.toString().toLowerCase()});
+                                if (device.deviceName.contains("[Phone]")){
+                                    nombre = device.deviceName.substring(7);
+                                }else{nombre=device.deviceName;}
+                                listado.add(new String[]{nombre, MacAddress.toString().toLowerCase()});
                                 listado2.add(device.deviceName+","+device.deviceAddress);
 
-                                db.insertarUsuario(MacAddress.toString().toLowerCase(), device.deviceName);
+                                db.insertarUsuario(MacAddress.toString().toLowerCase(), nombre);
 
                                 deviceArray[index]= device;
                                 index++;

@@ -254,15 +254,17 @@ public class ChatOffLineActivity extends AppCompatActivity {
         byte[] data = SerializationUtils.serialize(mensaje);
         String peso=obtenerPeso(data.length);
         //mensaje.setTexto(peso);
-        listMensaje.add(mensaje);
-        int conteo=0, posicion=-1;
-        for (Mensaje men_list:listMensaje) {
-            if(men_list.getTiempoEnvio() == mensaje.getTiempoEnvio()) conteo++;
-            posicion++;
+        if (!mensaje.getEmergente().equals("true")){
+            listMensaje.add(mensaje);
+            int conteo=0, posicion=-1;
+            for (Mensaje men_list:listMensaje) {
+                if(men_list.getTiempoEnvio() == mensaje.getTiempoEnvio()) conteo++;
+                posicion++;
+            }
+            if(conteo>1)listMensaje.remove(posicion);
+            chatAdapter.notifyDataSetChanged();
+            listView.setSelection(listMensaje.size() - 1);
         }
-        if(conteo>1)listMensaje.remove(posicion);
-        chatAdapter.notifyDataSetChanged();
-        listView.setSelection(listMensaje.size() - 1);
     }
 
     public void saveStateForeground(boolean isForeground) {
@@ -315,6 +317,7 @@ public class ChatOffLineActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         listMensaje.clear();
+                        db.eliminarMensajes();
                         chatAdapter.notifyDataSetChanged();
                         mostrarMensaje("Listo", "Registro vaciado", ChatOffLineActivity.this);
                     }

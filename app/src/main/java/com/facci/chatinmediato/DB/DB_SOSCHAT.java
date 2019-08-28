@@ -45,6 +45,11 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void eliminarMensajes(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(String.format("DELETE FROM %s", TB_mensajes.nombre));
+    }
+
     public void guardarRegistro(Object obj) {
         SQLiteDatabase db = this.getWritableDatabase();
         //String query = "";
@@ -89,7 +94,7 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
     public List<Mensaje> todos_mensajes(){
         List<Mensaje> respuesta = new ArrayList<Mensaje>();
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM MENSAJES_SOSCHAT", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM MENSAJES_SOSCHAT where EMERGENCIA='false'", null);
         return TB_mensajes.todos(cursor);
     }
     public List<Mensaje> todos_mensajesMac(String filtro){
@@ -105,7 +110,7 @@ public class DB_SOSCHAT extends SQLiteOpenHelper {
         Log.i("Macs","Origen: "+mac_origen_recortada+" Destino: "+mac_destino_recortada);
         List<Mensaje> respuesta = new ArrayList<Mensaje>();
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor= db.rawQuery("select * from MENSAJES_SOSCHAT where (MAC_ORIGEN like '%"+mac_origen_recortada+"' AND MAC_DESTINO like '%"+mac_destino_recortada+"')OR(MAC_DESTINO like '%"+mac_origen_recortada+"' AND MAC_ORIGEN like '%"+mac_destino_recortada+"')",null);
+        Cursor cursor= db.rawQuery("select * from MENSAJES_SOSCHAT where EMERGENCIA='false' AND ((MAC_ORIGEN like '%"+mac_origen_recortada+"' AND MAC_DESTINO like '%"+mac_destino_recortada+"')OR(MAC_DESTINO like '%"+mac_origen_recortada+"' AND MAC_ORIGEN like '%"+mac_destino_recortada+"'))",null);
         return TB_mensajes.todos(cursor);
     }
 
