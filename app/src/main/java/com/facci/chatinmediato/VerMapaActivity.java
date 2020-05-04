@@ -20,6 +20,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
+
 import java.util.List;
 
 import static com.facci.chatinmediato.NEGOCIO.Validaciones.comparar_mac;
@@ -60,11 +65,12 @@ public class VerMapaActivity extends FragmentActivity implements OnMapReadyCallb
             int numero = 1;
             PolylineOptions opciones = new PolylineOptions();
             for (Mensaje mensaje : mensajesMac) {
-
+                Date fecha_hora = new Date(mensaje.getTiempoEnvio());
+                String fecha_hora_s = fecha_hora.toString();
                 if(comparar_mac(MAC_destino, mensaje.getMacOrigen())){
                     map.addMarker(new MarkerOptions().position(
                             new LatLng(mensaje.getLatitud(), mensaje.getLongitud())
-                    ).title("Mensaje No: " + numero));
+                    ).title("Mensaje No: " + numero+ " con fecha: " + fecha_hora_s));
 
                     opciones.add(new LatLng(mensaje.getLatitud(), mensaje.getLongitud())).width(5).color(Color.RED);
 
