@@ -5,15 +5,18 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.LocationManager;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +26,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -57,6 +61,7 @@ import static com.facci.chatinmediato.NEGOCIO.Mensajes.getMacAddr;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Locale;
 
 public class InicioActivity extends AppCompatActivity implements OnMapReadyCallback{
     Context           context;
@@ -73,6 +78,12 @@ public class InicioActivity extends AppCompatActivity implements OnMapReadyCallb
     Activity activity;
     private LinearLayout view_popup;
     static DB_SOSCHAT db;
+
+    LocationManager locationManager;
+    double longitudeGPS, latitudeGPS;
+    TextView longitudeValueGPS, latitudeValueGPS;
+    private Locale locale;
+    private Configuration config = new Configuration();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +134,38 @@ public class InicioActivity extends AppCompatActivity implements OnMapReadyCallb
             return;
         }
         Mensajes.mostrarMensaje(R.string.ERROR, R.string.NONAME, this);
+    }
+
+    public void showOpen(View v){
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle(getResources().getString(R.string.str_button));
+        //obtiene los idiomas del array de string.xml
+        String[] types = getResources().getStringArray(R.array.languages);
+        b.setItems(types, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                switch(which){
+                    case 0:
+                        locale = new Locale("en");
+                        config.locale =locale;
+                        break;
+                    case 1:
+                        locale = new Locale("es");
+                        config.locale =locale;
+                        break;
+                }
+                getResources().updateConfiguration(config, null);
+                Intent refresh = new Intent(InicioActivity.this, InicioActivity.class);
+                startActivity(refresh);
+                finish();
+            }
+
+        });
+
+        b.show();
     }
 
     @Override
@@ -212,9 +255,37 @@ public class InicioActivity extends AppCompatActivity implements OnMapReadyCallb
                 stopService(nerby_service);
                 Toast.makeText(context, R.string.SERV_STOP, Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.sub_es:
+                locale = new Locale("es");
+                config.locale = locale;
+                getResources().updateConfiguration(config, null);
+                Intent refresh = new Intent(InicioActivity.this, InicioActivity.class);
+                startActivity(refresh);
+                finish();
+                return true;
+            case R.id.sub_us:
+                locale = new Locale("en");
+                config.locale = locale;
+                getResources().updateConfiguration(config, null);
+                refresh = new Intent(InicioActivity.this, InicioActivity.class);
+                startActivity(refresh);
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void setLocale(String idioma) {
+        Locale myLocale = new Locale(idioma);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        //Intent refresh = new Intent(this, InicioActivity.class);
+        //startActivity(refresh);
+        //finish();
     }
 
     @Override

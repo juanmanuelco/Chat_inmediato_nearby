@@ -11,7 +11,6 @@
     <string name="NO_PART">No se encontraron más participantes</string>
     <string name="ERROR_BUSC">Ha ocurrido un error mientras se buscaban contactos</string>
     <string name="NO_ENCONT">Tu ya no eres encontrable</string>
-    <string name="BUSCANDO_PART">Buscando participantes</string>
     <string name="ENCONTRADOS">Usuarios conectados en la misma red</string>
     <string name="ACTIVAGPS">Tu GPS está descativado y es necesario para el sistema ¿Desea activarlo?</string>
 
@@ -21,7 +20,15 @@
     <string name="Bluetooth">Chat por Bluetooth</string>
     <string name="lan">Chat por Lan</string>
     <string name="wifi">Chat por Wifi Direct</string>
+    <string name="str_button">Cambiar lenguaje</string>
     <string name="AGREGAR">AGREGAR</string>
+
+    <string name="str_en" >Ingles</string>
+    <string name="str_es" >Español</string>
+    <string-array name="languages" >
+        <item>@string/str_en</item>
+        <item>@string/str_es</item>
+    </string-array>
 
     <string name="title_activity_tabbed">TabbedActivity</string>
     <string name="tab_text_1">Cercanos</string>
@@ -42,7 +49,7 @@
     <string name="title_activity_drawing">Dibujar</string>
 
     <!-- Menus -->
-    <string name="disconnect">Desconctar</string>
+    <string name="disconnect">Desconectar</string>
     <string name="send_image">Enviar imágen</string>
     <string name="download_image">Descargar imágen</string>
     <string name="send_audio">Enviar audio</string>
@@ -98,9 +105,7 @@
     <string name="titulo_enviar_dibujo">Enviar dibujo</string>
     <string name="contenido_enivar_dibujo">¿Desea guardar y enviar este dibujo?</string>
     <string name="Close_chatroom">Cerrar la sala de chat</string>
-    <string name="contenido_Close_chatroom">¿Estás seguro de que quieres cerrar esta sala de chat?,
-        Ya no podrás recibir mensajes, y se borrarán todos los archivos multimedia no guardados.
-        Si usted es el servidor, todos los demás usuarios también se desconectarán.</string>
+    <string name="contenido_Close_chatroom">¿Estás seguro de que quieres cerrar esta sala de chat?,         Ya no podrás recibir mensajes, y se borrarán todos los archivos multimedia no guardados.         Si usted es el servidor, todos los demás usuarios también se desconectarán.</string>
     <string name="contenido_Close_chatroom_offline">Esta a punto de cerrar la sala de chat, ¿Esta seguro?</string>
     <string name="confirmar">Si</string>
     <string name="negar">No</string>
@@ -147,7 +152,6 @@
 
     <string name="NOMSG">No hay mensajes recientes</string>
 
-    <string name="ADD">Usuario agregado a la Base de datos</string>
     <string name="NADD">Usuario eliminado de la Base de datos</string>
 
     <string name="TTL">Tiempo de vida de mensajes (Horas) </string>
@@ -164,5 +168,7 @@
 
 
     <string name="MESSAGE_EMERGENCY_SEND">Mensaje de emergencia enviado </string>
+    <string name="ADD">Usuario agregado a la Base de datos</string>
+    <string name="BUSCANDO_PART">Buscando participantes</string>
 
 </resources>

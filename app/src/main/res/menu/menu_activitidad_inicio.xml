@@ -26,4 +26,16 @@
         android:title="@string/SERV_CANC"
         app:showAsAction="never"
         />
+
+    <item android:id="@+id/menu_idioma"
+        android:title="Traductor"
+        android:orderInCategory="100"
+        app:showAsAction="never" >
+        <menu>
+            <item android:id="@+id/sub_es"
+                android:title="español" />
+            <item android:id="@+id/sub_us"
+                android:title="ingles" />
+        </menu>
+    </item>
 </menu>
