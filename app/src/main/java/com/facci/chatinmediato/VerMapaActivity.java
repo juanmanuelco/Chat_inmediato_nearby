@@ -70,7 +70,7 @@ public class VerMapaActivity extends FragmentActivity implements OnMapReadyCallb
                 if(comparar_mac(MAC_destino, mensaje.getMacOrigen())){
                     map.addMarker(new MarkerOptions().position(
                             new LatLng(mensaje.getLatitud(), mensaje.getLongitud())
-                    ).title("Mensaje No: " + numero+ " con fecha: " + fecha_hora_s));
+                    ).title(getString(R.string.numerosms) +" " + numero+ " "+getString(R.string.conFecha) +" " + fecha_hora_s));
 
                     opciones.add(new LatLng(mensaje.getLatitud(), mensaje.getLongitud())).width(5).color(Color.RED);
 

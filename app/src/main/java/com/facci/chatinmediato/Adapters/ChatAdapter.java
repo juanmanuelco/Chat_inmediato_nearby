@@ -116,7 +116,7 @@ public class ChatAdapter extends BaseAdapter {
 			cache.relativeLayout.setBackground(view.getResources().getDrawable(R.drawable.chat_bubble_mine));
 			cache.chatName.setTextColor(Color.BLACK);
 			cache.text.setTextColor(Color.BLACK);
-			cache.chatName.setText("Yo");
+			cache.chatName.setText(R.string.me_user);
 			if(mes.getIdentificacion()) mes.setMacDestino(OTRO_DISPOSITIVO.MacAddress);
 		}
         else{

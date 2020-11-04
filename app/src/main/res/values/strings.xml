@@ -15,6 +15,7 @@
     <string name="ACTIVAGPS">Tu GPS está descativado y es necesario para el sistema ¿Desea activarlo?</string>
 
     <string name="encabezado_principal">Bienvenido</string>
+    <string name="me_user">Yo</string>
     <string name="hing_principal">Esciba un nombre</string>
     <string name="pregunta_principal">¿Desea conectarse?</string>
     <string name="Bluetooth">Chat por Bluetooth</string>
@@ -22,6 +23,15 @@
     <string name="wifi">Chat por Wifi Direct</string>
     <string name="str_button">Cambiar lenguaje</string>
     <string name="AGREGAR">AGREGAR</string>
+    <string name="traductor">Traductor</string>
+    <string name="span">Español</string>
+    <string name="eng">Ingles</string>
+
+    <string name="velocidad">Velocidad</string>
+    <string name="frecuencia">Frecuencia: </string>
+    <string name="fuerza">Fuerza de señal: </string>
+    <string name="numerosms">Mensaje No: </string>
+    <string name="conFecha">con fecha: </string>
 
     <string name="str_en" >Ingles</string>
     <string name="str_es" >Español</string>
@@ -56,6 +66,7 @@
     <string name="send_video">Enviar video</string>
     <string name="send_file">Enviar archivo</string>
     <string name="send_drawing">Enviar dibujo</string>
+    <string name="delete_msm">Borrar registro</string>
 
     <!-- Popup menus -->
     <string name="pick_image">Escoger imágen</string>

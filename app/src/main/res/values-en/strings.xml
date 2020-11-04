@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CHAT \nINMEDIATO</string>
+    <string name="app_name">INMEDIATE CHAT</string>
     <string name="ACTIVAGPS">"Your GPS is deactivated and is necessary for the system. Do you want to activate it? "</string>
     <string name="ADD">User added to the Database</string>
     <string name="AGREGAR">ADD</string>
@@ -107,7 +107,7 @@
     <string name="str_button">Change Language</string>
     <string name="str_es">Spanish</string>
     <string name="str_en">English</string>
-    <string name="tab_text_1">Far</string>
+    <string name="tab_text_1">Nearby Devices</string>
     <string name="tab_text_2">Message</string>
     <string name="tab_text_3">History</string>
     <string name="take_photo">take picture</string>
@@ -127,4 +127,14 @@
     <string name="title_activity_web_view">Open link</string>
     <string name="titulo_enviar_dibujo">Send draw</string>
     <string name="wifi">Chat by Wifi Direct</string>
+    <string name="velocidad">Fast:</string>
+    <string name="numerosms">Message No</string>
+    <string name="frecuencia">Frequency:</string>
+    <string name="fuerza">Signal strength:</string>
+    <string name="conFecha">with date:</string>
+    <string name="delete_msm">Erase Logs</string>
+    <string name="me_user">Me</string>
+    <string name="eng">English</string>
+    <string name="span">Spanish</string>
+    <string name="traductor">Translate</string>
 </resources>

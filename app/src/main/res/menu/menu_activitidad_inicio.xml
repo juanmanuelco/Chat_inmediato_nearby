@@ -28,14 +28,14 @@
         />
 
     <item android:id="@+id/menu_idioma"
-        android:title="Traductor"
+        android:title="@string/traductor"
         android:orderInCategory="100"
         app:showAsAction="never" >
         <menu>
             <item android:id="@+id/sub_es"
-                android:title="español" />
+                android:title="@string/span" />
             <item android:id="@+id/sub_us"
-                android:title="ingles" />
+                android:title="@string/eng" />
         </menu>
     </item>
 </menu>

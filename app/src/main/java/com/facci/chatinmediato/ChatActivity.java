@@ -117,7 +117,7 @@ public class ChatActivity extends AppCompatActivity {
                         int fuerzaSenal = wifiInfo.getRssi(); //Indicador de fuerza de señal recibida
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
                             frecuencia = wifiInfo.getFrequency();
-                        netInfo.setText(Mensajes.datosSenal(velocidad, frecuencia, fuerzaSenal));
+                        netInfo.setText(Mensajes.datosSenal(getString(R.string.velocidad), getString(R.string.frecuencia), getString(R.string.fuerza), velocidad, frecuencia, fuerzaSenal));
                     }
                 });
             }

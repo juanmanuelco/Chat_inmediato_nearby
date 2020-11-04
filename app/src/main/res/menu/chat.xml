@@ -32,7 +32,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/vaciar"
-        android:title="Borrar registro"
+        android:title="@string/delete_msm"
         android:icon="@drawable/dibujo"
         app:showAsAction="ifRoom" />
 

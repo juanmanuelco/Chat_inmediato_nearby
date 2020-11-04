@@ -66,10 +66,10 @@ public class Mensajes {
         p.setMessage(C.getResources().getString(m));
         p.show();
     }
-    public static String datosSenal(int velocidad, int frecuencia, int fuerza){
-        String respuesta= "Velocidad: " + velocidad +" Mbps, ";
-        respuesta=respuesta.concat("Frecuencia: " + frecuencia+" Mhz, ");
-        respuesta=respuesta.concat("Fuerza de señal: " + fuerza);
+    public static String datosSenal(String texto_v, String texto_f, String texto_fu, int velocidad, int frecuencia, int fuerza){
+        String respuesta= texto_v + " " + velocidad +" Mbps, ";
+        respuesta=respuesta.concat(texto_f +" " + frecuencia+" Mhz, ");
+        respuesta=respuesta.concat(texto_fu +" " + fuerza);
         return respuesta;
     }
     public static String getMacAddr() {
